@@ -1,0 +1,1290 @@
+// ==========================================
+// CONFIGURAÇÕES GERAIS
+// ==========================================
+
+:host {
+    display: block;
+    min-height: 100vh;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.pagina-eventos {
+    min-height: 100vh;
+
+    padding: 40px;
+
+    background: #f5f7fb;
+
+    color: #1f2937;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+// ==========================================
+// CABEÇALHO
+// ==========================================
+
+.cabecalho {
+    max-width: 1400px;
+
+    margin: 0 auto 30px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.cabecalho h1 {
+    margin: 0;
+
+    font-size: 36px;
+
+    font-weight: 700;
+}
+
+.cabecalho p {
+    margin: 8px 0 0;
+
+    color: #6b7280;
+
+    font-size: 15px;
+}
+
+
+// ==========================================
+// AÇÕES
+// ==========================================
+
+.acoes {
+    display: flex;
+
+    gap: 12px;
+}
+
+
+// ==========================================
+// BOTÕES
+// ==========================================
+
+.btn {
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 11px 18px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+
+// ==========================================
+// VOLTAR
+// ==========================================
+
+.btn-voltar {
+    background: white;
+
+    color: #374151;
+
+    border: 1px solid #e5e7eb;
+}
+
+.btn-voltar:hover {
+    background: #f9fafb;
+}
+
+
+// ==========================================
+// ADICIONAR
+// ==========================================
+
+.btn-adicionar {
+    background: #4f46e5;
+
+    color: white;
+
+    box-shadow:
+        0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.btn-adicionar:hover {
+    background: #4338ca;
+}
+
+
+// ==========================================
+// CONTEÚDO PRINCIPAL
+// ==========================================
+
+.conteudo-principal {
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(320px, 1fr);
+
+    gap: 25px;
+
+    align-items: start;
+}
+
+
+// ==========================================
+// CALENDÁRIO
+// ==========================================
+
+.calendario-container {
+    min-width: 0;
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.04);
+}
+
+
+// ==========================================
+// HEADER DO CALENDÁRIO
+// ==========================================
+
+.calendario-header {
+    padding: 20px 24px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.navegacao-mes {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-width: 0;
+}
+
+.navegacao-mes h2 {
+    width: 220px;
+
+    margin: 0;
+
+    text-align: center;
+
+    font-size: 22px;
+
+    text-transform: capitalize;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+// ==========================================
+// NAVEGAÇÃO
+// ==========================================
+
+.btn-navegacao {
+    flex-shrink: 0;
+
+    width: 38px;
+
+    height: 38px;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 9px;
+
+    background: white;
+
+    color: #374151;
+
+    font-size: 25px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+.btn-navegacao:hover {
+    background: #f3f4f6;
+
+    transform: scale(1.05);
+}
+
+
+// ==========================================
+// HOJE
+// ==========================================
+
+.btn-hoje {
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 9px 15px;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background 0.2s;
+}
+
+.btn-hoje:hover {
+    background: #e0e7ff;
+}
+
+
+// ==========================================
+// DIAS DA SEMANA
+// ==========================================
+
+.dias-semana {
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, minmax(0, 1fr));
+
+    border-bottom: 1px solid #e5e7eb;
+
+    background: #fafafa;
+}
+
+.dias-semana div {
+    min-width: 0;
+
+    padding: 13px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    overflow: hidden;
+}
+
+
+// ==========================================
+// GRID
+// ==========================================
+
+.grid-calendario {
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, minmax(0, 1fr));
+
+    width: 100%;
+}
+
+
+// ==========================================
+// DIA
+// ==========================================
+
+.dia {
+    min-width: 0;
+
+    min-height: 125px;
+
+    padding: 10px;
+
+    border-right: 1px solid #e5e7eb;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    background: white;
+
+    overflow: hidden;
+
+    transition:
+        background 0.2s;
+}
+
+.dia:hover {
+    background: #fafbff;
+}
+
+
+// ==========================================
+// ÚLTIMA COLUNA
+// ==========================================
+
+.dia:nth-child(7n) {
+    border-right: none;
+}
+
+
+// ==========================================
+// OUTRO MÊS
+// ==========================================
+
+.dia.outro-mes {
+    background: #fafafa;
+}
+
+.dia.outro-mes .numero-dia span {
+    color: #c4c7ce;
+}
+
+
+// ==========================================
+// NÚMERO
+// ==========================================
+
+.numero-dia {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-bottom: 8px;
+}
+
+.numero-dia span {
+    flex-shrink: 0;
+
+    width: 28px;
+
+    height: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #374151;
+}
+
+
+// ==========================================
+// HOJE
+// ==========================================
+
+.dia.hoje .numero-dia span {
+    background: #4f46e5;
+
+    color: white;
+}
+
+
+// ==========================================
+// EVENTOS DO DIA
+// ==========================================
+
+.eventos-dia {
+    width: 100%;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+    overflow: hidden;
+}
+
+
+// ==========================================
+// EVENTO
+// ==========================================
+
+.evento {
+    width: 100%;
+
+    min-width: 0;
+
+    max-width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 5px 7px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #eef2ff;
+
+    color: #4338ca;
+
+    text-align: left;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    transition:
+        background 0.2s,
+        transform 0.15s;
+}
+
+.evento:hover {
+    background: #e0e7ff;
+
+    transform: translateX(2px);
+}
+
+
+// ==========================================
+// PONTO
+// ==========================================
+
+.ponto {
+    flex-shrink: 0;
+
+    width: 6px;
+
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #4f46e5;
+}
+
+
+// ==========================================
+// NOME
+// ==========================================
+
+.nome-evento {
+    min-width: 0;
+
+    flex: 1;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-weight: 600;
+}
+
+
+// ==========================================
+// LISTA DE EVENTOS
+// ==========================================
+
+.lista-container {
+    min-width: 0;
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.04);
+}
+
+
+// ==========================================
+// HEADER DA LISTA
+// ==========================================
+
+.lista-header {
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.lista-header h2 {
+    margin: 0;
+
+    font-size: 21px;
+}
+
+.lista-header p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+// ==========================================
+// CONTADOR
+// ==========================================
+
+.contador {
+    flex-shrink: 0;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+// ==========================================
+// LISTA
+// ==========================================
+
+.lista-eventos {
+    max-height: 600px;
+
+    overflow-y: auto;
+}
+
+
+// ==========================================
+// CARD EVENTO
+// ==========================================
+
+.card-evento {
+    min-width: 0;
+
+    padding: 18px 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        auto
+        minmax(0, 1fr)
+        auto;
+
+    align-items: center;
+
+    gap: 15px;
+
+    border-bottom: 1px solid #f0f1f3;
+
+    transition:
+        background 0.2s;
+}
+
+.card-evento:hover {
+    background: #fafbff;
+}
+
+.card-evento:last-child {
+    border-bottom: none;
+}
+
+
+// ==========================================
+// DATA
+// ==========================================
+
+.data-evento {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+.icone-data {
+    width: 36px;
+
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #eef2ff;
+
+    font-size: 17px;
+}
+
+.data-evento div:last-child {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.data-evento span {
+    color: #9ca3af;
+
+    font-size: 10px;
+}
+
+.data-evento strong {
+    color: #374151;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+
+// ==========================================
+// INFORMAÇÕES DO EVENTO
+// ==========================================
+
+.info-evento {
+    min-width: 0;
+}
+
+.info-evento h3 {
+    margin: 0;
+
+    color: #1f2937;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+// ==========================================
+// AÇÕES DO CARD
+// ==========================================
+
+.acoes-card {
+    display: flex;
+
+    gap: 7px;
+}
+
+.btn-editar,
+.btn-deletar {
+    border: none;
+
+    padding: 7px 10px;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+.btn-editar:hover,
+.btn-deletar:hover {
+    transform: translateY(-1px);
+}
+
+.btn-editar {
+    background: #eef2ff;
+
+    color: #4f46e5;
+}
+
+.btn-editar:hover {
+    background: #e0e7ff;
+}
+
+.btn-deletar {
+    background: #fef2f2;
+
+    color: #dc2626;
+}
+
+.btn-deletar:hover {
+    background: #fee2e2;
+}
+
+
+// ==========================================
+// SEM EVENTOS
+// ==========================================
+
+.sem-eventos {
+    padding: 50px 20px;
+
+    text-align: center;
+}
+
+.sem-eventos > span {
+    font-size: 35px;
+}
+
+.sem-eventos h3 {
+    margin: 12px 0 5px;
+
+    font-size: 16px;
+}
+
+.sem-eventos p {
+    margin: 0;
+
+    color: #9ca3af;
+
+    font-size: 13px;
+}
+
+
+// ==========================================
+// OVERLAY
+// ==========================================
+
+.overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.55);
+}
+
+
+// ==========================================
+// FORMULÁRIO
+// ==========================================
+
+.formulario {
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 28px;
+
+    background: white;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.2);
+
+    animation:
+        aparecer 0.2s ease;
+}
+
+
+// ==========================================
+// ANIMAÇÃO
+// ==========================================
+
+@keyframes aparecer {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(10px)
+            scale(0.98);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+// ==========================================
+// HEADER FORMULÁRIO
+// ==========================================
+
+.formulario-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+}
+
+.formulario-header h2 {
+    margin: 0;
+
+    font-size: 22px;
+}
+
+
+// ==========================================
+// FECHAR
+// ==========================================
+
+.btn-fechar {
+    width: 34px;
+
+    height: 34px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #f3f4f6;
+
+    color: #6b7280;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s;
+}
+
+.btn-fechar:hover {
+    background: #e5e7eb;
+}
+
+
+// ==========================================
+// CAMPOS
+// ==========================================
+
+.campo {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 18px;
+}
+
+.campo label {
+    color: #374151;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.campo input {
+    width: 100%;
+
+    padding: 11px 13px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    transition:
+        border 0.2s,
+        box-shadow 0.2s;
+}
+
+.campo input:focus {
+    border-color: #4f46e5;
+
+    box-shadow:
+        0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+
+// ==========================================
+// CRIAR / SALVAR
+// ==========================================
+
+.btn-criar {
+    width: 100%;
+
+    margin-top: 5px;
+
+    padding: 13px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    font-size: 15px;
+}
+
+.btn-criar:hover {
+    background: #4338ca;
+}
+
+
+// ==========================================
+// TABLET
+// ==========================================
+
+@media (max-width: 1000px) {
+
+    .conteudo-principal {
+        grid-template-columns: 1fr;
+    }
+
+    .lista-container {
+        width: 100%;
+    }
+
+    .lista-eventos {
+        max-height: none;
+    }
+
+}
+
+
+// ==========================================
+// RESPONSIVIDADE
+// ==========================================
+
+@media (max-width: 800px) {
+
+    .pagina-eventos {
+        padding: 25px 15px;
+    }
+
+    .cabecalho {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .acoes {
+        width: 100%;
+    }
+
+    .acoes .btn {
+        flex: 1;
+    }
+
+    .dia {
+        min-height: 100px;
+
+        padding: 7px;
+    }
+
+    .nome-evento {
+        font-size: 11px;
+    }
+
+}
+
+
+// ==========================================
+// CELULAR
+// ==========================================
+
+@media (max-width: 600px) {
+
+    .cabecalho h1 {
+        font-size: 30px;
+    }
+
+
+    // ==============================
+    // CALENDÁRIO
+    // ==============================
+
+    .calendario-header {
+        padding: 14px 12px;
+
+        gap: 8px;
+    }
+
+    .navegacao-mes {
+        gap: 5px;
+
+        flex: 1;
+    }
+
+    .navegacao-mes h2 {
+        width: auto;
+
+        flex: 1;
+
+        font-size: 16px;
+    }
+
+    .btn-navegacao {
+        width: 32px;
+
+        height: 32px;
+
+        font-size: 21px;
+    }
+
+    .btn-hoje {
+        padding: 7px 9px;
+
+        font-size: 11px;
+    }
+
+
+    // ==============================
+    // DIAS DA SEMANA
+    // ==============================
+
+    .dias-semana div {
+        padding: 9px 2px;
+
+        font-size: 8px;
+    }
+
+
+    // ==============================
+    // DIAS
+    // ==============================
+
+    .dia {
+        min-height: 75px;
+
+        padding: 4px;
+
+        overflow: hidden;
+    }
+
+    .numero-dia {
+        margin-bottom: 4px;
+    }
+
+    .numero-dia span {
+        width: 22px;
+
+        height: 22px;
+
+        font-size: 10px;
+    }
+
+
+    // ==============================
+    // EVENTOS
+    // ==============================
+
+    .eventos-dia {
+        gap: 3px;
+    }
+
+    .evento {
+        padding: 4px;
+
+        gap: 4px;
+
+        font-size: 9px;
+
+        border-radius: 5px;
+    }
+
+    .ponto {
+        width: 4px;
+
+        height: 4px;
+    }
+
+    .nome-evento {
+        min-width: 0;
+
+        max-width: 100%;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+        white-space: nowrap;
+    }
+
+
+    // ==============================
+    // LISTA DE EVENTOS
+    // ==============================
+
+    .lista-header {
+        padding: 16px;
+    }
+
+    .lista-header h2 {
+        font-size: 19px;
+    }
+
+    .card-evento {
+        padding: 15px;
+
+        grid-template-columns:
+            auto
+            minmax(0, 1fr);
+
+        gap: 12px;
+    }
+
+    .data-evento {
+        grid-column: 1 / -1;
+
+        padding-bottom: 10px;
+
+        border-bottom: 1px solid #f0f1f3;
+    }
+
+    .info-evento {
+        min-width: 0;
+    }
+
+    .info-evento h3 {
+        font-size: 14px;
+    }
+
+    .acoes-card {
+        justify-content: flex-end;
+    }
+
+    .btn-editar,
+    .btn-deletar {
+        padding: 7px 9px;
+    }
+
+}
+
+
+// ==========================================
+// CELULARES MUITO PEQUENOS
+// ==========================================
+
+@media (max-width: 400px) {
+
+    .pagina-eventos {
+        padding: 15px 10px;
+    }
+
+    .calendario-header {
+        padding: 12px 8px;
+    }
+
+    .navegacao-mes h2 {
+        font-size: 14px;
+    }
+
+    .btn-hoje {
+        padding: 6px 7px;
+
+        font-size: 10px;
+    }
+
+    .dia {
+        min-height: 65px;
+
+        padding: 3px;
+    }
+
+    .evento {
+        padding: 3px;
+
+        font-size: 8px;
+    }
+
+    .ponto {
+        display: none;
+    }
+
+}

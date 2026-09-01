@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Environment variables / secrets
+.env
+.env.*
+
+# Spring Boot local configuration
+backend/src/main/resources/application.properties
+
+# IDE
+.idea/

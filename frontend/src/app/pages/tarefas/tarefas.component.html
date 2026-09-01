@@ -1,0 +1,505 @@
+<div class="pagina-tarefas">
+
+    <!-- =========================
+         CABEÇALHO
+    ========================== -->
+
+    <header class="cabecalho">
+
+        <div>
+            <h1>Tarefas</h1>
+
+            <p>
+                Organize suas atividades e acompanhe seu progresso.
+            </p>
+        </div>
+
+        <div class="acoes">
+
+            <button
+                class="btn btn-voltar"
+                (click)="voltarParaHome()"
+            >
+                Voltar para Home
+            </button>
+
+            @if (authService.ehAdmin()) {
+
+                <button
+                    class="btn btn-adicionar"
+                    (click)="abrirFormulario()"
+                >
+                    + Criar nova tarefa
+                </button>
+
+            }
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         FORMULÁRIO NOVA TAREFA
+    ========================== -->
+
+    @if (mostrarFormulario) {
+
+        <div class="overlay">
+
+            <div class="formulario">
+
+                <div class="formulario-header">
+
+                    <h2>Criar nova tarefa</h2>
+
+                    <button
+                        class="btn-fechar"
+                        (click)="fecharFormulario()"
+                    >
+                        X
+                    </button>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Matéria
+                    </label>
+
+                    <input
+                        type="text"
+                        placeholder="Ex: Matemática"
+                        [(ngModel)]="novaTarefa.materia"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Data
+                    </label>
+
+                    <input
+                        type="date"
+                        [(ngModel)]="novaTarefa.data"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Trimestre
+                    </label>
+
+                    <select
+                        [(ngModel)]="novaTarefa.trimestre"
+                    >
+
+                        <option [value]="1">
+                            1º trimestre
+                        </option>
+
+                        <option [value]="2">
+                            2º trimestre
+                        </option>
+
+                        <option [value]="3">
+                            3º trimestre
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ATIVIDADES -->
+
+                <div class="atividades-form">
+
+                    <h3>Atividades</h3>
+
+                    @for (
+                        atividade of novaTarefa.atividades;
+                        track $index
+                    ) {
+
+                        <div class="atividade-input">
+
+                            <input
+                                type="text"
+                                placeholder="Nome da atividade"
+                                [(ngModel)]="atividade.nome"
+                            >
+
+                            <button
+                                class="btn-remover"
+                                (click)="removerAtividade($index)"
+                            >
+                                Remover
+                            </button>
+
+                        </div>
+
+                    }
+
+
+                    <button
+                        class="btn btn-atividade"
+                        (click)="adicionarAtividade()"
+                    >
+                        + Adicionar atividade
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="btn btn-criar"
+                    (click)="criarTarefa()"
+                >
+                    Criar tarefa
+                </button>
+
+            </div>
+
+        </div>
+
+    }
+
+
+    <!-- =========================
+         RESUMO
+    ========================== -->
+
+    <section class="resumo">
+
+        <div class="titulo-tarefas">
+
+            <div>
+
+                <h2>Minhas tarefas</h2>
+
+                <p>
+                    Acompanhe suas atividades e veja quanto já concluiu.
+                </p>
+
+            </div>
+
+
+            <select
+                class="filtro-trimestre"
+                [(ngModel)]="trimestreSelecionado"
+            >
+
+                <option [ngValue]="0">
+                    Todos os trimestres
+                </option>
+
+                <option [ngValue]="1">
+                    1º trimestre
+                </option>
+
+                <option [ngValue]="2">
+                    2º trimestre
+                </option>
+
+                <option [ngValue]="3">
+                    3º trimestre
+                </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="progresso-total">
+
+        <span>
+            Progresso geral
+        </span>
+
+        <strong>
+            {{ getProgressoTotal() | number:'1.0-0' }}%
+        </strong>
+
+    </div>
+
+</section>
+
+
+    <!-- =========================
+         FORMULÁRIO DE EDIÇÃO
+    ========================== -->
+
+    @if (mostrarFormularioEdicao) {
+
+        <div class="overlay">
+
+            <div class="formulario">
+
+                <div class="formulario-header">
+
+                    <h2>Editar tarefa</h2>
+
+                    <button
+                        class="btn-fechar"
+                        (click)="fecharFormularioEdicao()"
+                    >
+                        X
+                    </button>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Matéria
+                    </label>
+
+                    <input
+                        type="text"
+                        [(ngModel)]="novaTarefaEditada.materia"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Data
+                    </label>
+
+                    <input
+                        type="date"
+                        [(ngModel)]="novaTarefaEditada.data"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Trimestre
+                    </label>
+
+                    <input
+                        type="number"
+                        min="1"
+                        max="3"
+                        [(ngModel)]="novaTarefaEditada.trimestre"
+                    >
+
+                </div>
+
+
+                <!-- ATIVIDADES -->
+
+                <div class="atividades-form">
+
+                    <h3>Atividades</h3>
+
+                    @for (
+                        atividade of novaTarefaEditada.atividades;
+                        track $index
+                    ) {
+
+                        <div class="atividade-input">
+
+                            <input
+                                type="text"
+                                placeholder="Nome da atividade"
+                                [(ngModel)]="atividade.nome"
+                            >
+
+                            <button
+                                class="btn-remover"
+                                (click)="removerAtividadeTarefaEditada($index)"
+                            >
+                                Remover
+                            </button>
+
+                        </div>
+
+                    }
+
+
+                    <button
+                        class="btn btn-atividade"
+                        (click)="adicionarAtividadeTarefaEditada()"
+                    >
+                        + Adicionar atividade
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="btn btn-criar"
+                    (click)="salvarEdicao()"
+                >
+                    Salvar alterações
+                </button>
+
+            </div>
+
+        </div>
+
+    }
+
+
+    <!-- =========================
+         LISTA DE TAREFAS
+    ========================== -->
+
+    <section class="lista-tarefas">
+
+        @for (tarefa of getTarefasFiltradas(); track tarefa.id) {
+
+            <article class="card-tarefa">
+
+
+                <!-- HEADER DO CARD -->
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            {{ tarefa.materia }}
+                        </h3>
+
+                        <span class="trimestre">
+                            {{ tarefa.trimestre }}º trimestre
+                        </span>
+
+                    </div>
+
+                    @if (authService.ehAdmin()) {
+                        <div class="acoes-card">
+
+                            <button
+                                class="btn-editar"
+                                (click)="abrirFormularioEdicao(tarefa)"
+                            >
+                                Editar
+                            </button>
+
+                            <button
+                                class="btn-deletar"
+                                (click)="deletarTarefa(tarefa.id)"
+                            >
+                                Deletar
+                            </button>
+
+                        </div>
+                    }
+
+                </div>
+
+
+                <!-- INFORMAÇÕES -->
+
+                <div class="informacoes">
+
+                    <div class="info">
+
+                        <span>
+                            Data
+                        </span>
+
+                        <strong>
+                            {{ tarefa.data }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <span>
+                            Atividades
+                        </span>
+
+                        <strong>
+                            {{ tarefa.atividadesConcluidas }}/{{ tarefa.totalAtividades }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <span>
+                            Progresso
+                        </span>
+
+                        <strong>
+                            {{ tarefa.progresso | number:'1.0-0' }}%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BARRA DE PROGRESSO -->
+
+                <div class="barra">
+
+                    <div
+                        class="barra-progresso"
+                        [style.width.%]="tarefa.progresso"
+                    ></div>
+
+                </div>
+
+
+                <!-- ATIVIDADES -->
+
+                <div class="lista-atividades">
+
+                    @for (
+                        atividade of tarefa.atividades;
+                        track atividade.id
+                    ) {
+
+                        <label class="atividade">
+
+                            <input
+                                type="checkbox"
+                                [(ngModel)]="atividade.concluido"
+                                (change)="alterarEstado(
+                                    atividade.id,
+                                    atividade.concluido
+                                )"
+                            >
+
+                            <span
+                                [class.concluido]="atividade.concluido"
+                            >
+                                {{ atividade.nome }}
+                            </span>
+
+                        </label>
+
+                    }
+
+                </div>
+
+            </article>
+
+        }
+
+    </section>
+
+</div>

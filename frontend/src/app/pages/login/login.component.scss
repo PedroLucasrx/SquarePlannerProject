@@ -1,0 +1,205 @@
+.login-page {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #f5f3ff;
+
+    padding: 20px;
+}
+
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+
+    box-sizing: border-box;
+}
+
+
+.login-card h1 {
+    text-align: center;
+
+    color: #6c4ab6;
+
+    font-size: 30px;
+
+    margin: 0 0 8px;
+}
+
+
+.login-card h2 {
+    text-align: center;
+
+    color: #222;
+
+    font-size: 22px;
+
+    margin: 0 0 8px;
+}
+
+
+.subtitulo {
+    text-align: center;
+
+    color: #777;
+
+    font-size: 14px;
+
+    margin: 0 0 30px;
+}
+
+
+.campo {
+    display: flex;
+
+    flex-direction: column;
+
+    margin-bottom: 20px;
+}
+
+
+.campo label {
+    color: #444;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 7px;
+}
+
+
+.campo input {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 13px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    background: #fafafa;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+
+.campo input:focus {
+    border-color: #6c4ab6;
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px rgba(108, 74, 182, 0.12);
+}
+
+
+.btn-entrar,
+.btn-cadastro {
+    width: 100%;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.btn-entrar {
+    border: none;
+
+    background: #6c4ab6;
+
+    color: white;
+}
+
+
+.btn-entrar:hover {
+    background: #59399e;
+
+    transform: translateY(-1px);
+}
+
+
+.separador {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 22px 0;
+
+    color: #aaa;
+
+    font-size: 13px;
+}
+
+
+.separador::before,
+.separador::after {
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background: #e5e5e5;
+}
+
+
+.btn-cadastro {
+    border: 1px solid #6c4ab6;
+
+    background: white;
+
+    color: #6c4ab6;
+}
+
+
+.btn-cadastro:hover {
+    background: #f1edff;
+}
+
+
+@media (max-width: 500px) {
+
+    .login-page {
+        padding: 15px;
+    }
+
+    .login-card {
+        padding: 30px 22px;
+    }
+
+    .login-card h1 {
+        font-size: 26px;
+    }
+
+}
+

@@ -1,0 +1,249 @@
+// ==========================================
+// GERAL
+// ==========================================
+
+:host {
+    display: block;
+    min-height: 100vh;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.home {
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 50px 20px;
+
+    background: #f5f7fb;
+
+    color: #1f2937;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+// ==========================================
+// HEADER
+// ==========================================
+
+.header {
+    text-align: center;
+
+    margin-bottom: 45px;
+}
+
+.header h1 {
+    margin: 0;
+
+    font-size: 38px;
+
+    font-weight: 700;
+}
+
+.header p {
+    margin: 10px 0 0;
+
+    color: #6b7280;
+
+    font-size: 16px;
+}
+
+
+// ==========================================
+// MENU
+// ==========================================
+
+.menu {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 180px);
+
+    gap: 20px;
+}
+
+
+// ==========================================
+// BOTÕES
+// ==========================================
+
+.menu-item {
+    width: 180px;
+
+    height: 180px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 18px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 20px rgba(79, 70, 229, 0.20);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.menu-item:hover {
+    background: #4338ca;
+
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 12px 30px rgba(79, 70, 229, 0.25);
+}
+
+.menu-item:active {
+    transform: translateY(-1px);
+}
+
+
+// ==========================================
+// BOTÃO SAIR
+// ==========================================
+
+.btn-sair {
+    margin-top: 30px;
+
+    padding: 10px 22px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+.btn-sair:hover {
+    background: #fee2e2;
+
+    transform: translateY(-2px);
+}
+
+
+// ==========================================
+// LOGIN
+// ==========================================
+
+.login {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.login p {
+    margin: 0;
+
+    color: #6b7280;
+}
+
+.btn-entrar {
+    padding: 11px 25px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+.btn-entrar:hover {
+    background: #4338ca;
+
+    transform: translateY(-2px);
+}
+
+
+// ==========================================
+// CELULAR
+// ==========================================
+
+@media (max-width: 450px) {
+
+    .home {
+        padding: 35px 15px;
+    }
+
+    .header {
+        margin-bottom: 30px;
+    }
+
+    .header h1 {
+        font-size: 32px;
+    }
+
+    .menu {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        width: 100%;
+
+        max-width: 360px;
+
+        gap: 12px;
+    }
+
+    .menu-item {
+        width: 100%;
+
+        height: 150px;
+
+        border-radius: 15px;
+
+        font-size: 16px;
+    }
+
+}

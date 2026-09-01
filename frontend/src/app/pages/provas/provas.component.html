@@ -1,0 +1,408 @@
+<div class="pagina-provas">
+
+    <header class="cabecalho">
+        <div>
+            <h1>Provas</h1>
+            <p>Organize suas provas e acompanhe seu progresso.</p>
+        </div>
+
+        <div class="acoes">
+            <button class="btn btn-voltar" (click)="voltarParaHome()">
+                Voltar
+            </button>
+
+
+            @if (authService.ehAdmin()) {
+                <button class="btn btn-adicionar" (click)="abrirFormulario()">
+                    + Adicionar prova
+                </button>
+   
+
+            }
+
+            
+        </div>
+    </header>
+
+
+    @if (mostrarFormulario) {
+
+        <div class="overlay">
+
+            <div class="formulario">
+
+                <div class="formulario-header">
+                    <h2>Nova prova</h2>
+
+                    <button
+                        class="btn-fechar"
+                        (click)="fecharFormulario()"
+                    >
+                        X
+                    </button>
+                </div>
+
+                <div class="campo">
+                    <label>Matéria</label>
+
+                    <input
+                        type="text"
+                        placeholder="Ex: Matemática"
+                        [(ngModel)]="novaProva.materia"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Data</label>
+
+                    <input
+                        type="date"
+                        [(ngModel)]="novaProva.data"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label>Trimestre</label>
+
+                    <select [(ngModel)]="novaProva.trimestre">
+
+                        <option [value]="1">
+                            1º trimestre
+                        </option>
+
+                        <option [value]="2">
+                            2º trimestre
+                        </option>
+
+                        <option [value]="3">
+                            3º trimestre
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="conteudos-form">
+
+                    <h3>Conteúdos</h3>
+
+                    @for (conteudo of novaProva.conteudos; track $index) {
+
+                        <div class="conteudo-input">
+
+                            <input
+                                type="text"
+                                placeholder="Nome do conteúdo"
+                                [(ngModel)]="conteudo.nome"
+                            >
+
+                            <button
+                                class="btn-remover"
+                                (click)="removerConteudo($index)"
+                            >
+                                Remover
+                            </button>
+
+                        </div>
+
+                    }
+
+                    <button
+                        class="btn btn-conteudo"
+                        (click)="adicionarConteudo()"
+                    >
+                        + Adicionar conteúdo
+                    </button>
+
+                </div>
+
+                <button
+                    class="btn btn-criar"
+                    (click)="criarProva()"
+                >
+                    Criar prova
+                </button>
+
+            </div>
+
+        </div>
+
+    }
+
+
+    <section class="resumo">
+
+    <div class="titulo-provas">
+
+        <div>
+            <h2>Minhas provas</h2>
+
+            <p>
+                Veja suas provas e acompanhe seus estudos.
+            </p>
+        </div>
+
+        <select
+            class="filtro-trimestre"
+            [(ngModel)]="trimestreSelecionado"
+        >
+
+                <option [ngValue]="0">
+                    Todos os trimestres
+                </option>
+
+                <option [ngValue]="1">
+                    1º trimestre
+                </option>
+
+                <option [ngValue]="2">
+                    2º trimestre
+                </option>
+
+                <option [ngValue]="3">
+                    3º trimestre
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="progresso-total">
+
+            <span>
+                Progresso geral
+            </span>
+
+            <strong>
+                {{ getProgressoTotal() | number:'1.0-0' }}%
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    @if (mostrarFormularioEdicao) {
+
+        <div class="overlay">
+
+            <div class="formulario">
+
+                <div class="formulario-header">
+
+                    <h2>Editar prova</h2>
+
+                    <button
+                        class="btn-fechar"
+                        (click)="fecharFormularioEdicao()"
+                    >
+                        X
+                    </button>
+
+                </div>
+
+                <div class="campo">
+
+                    <label>Matéria</label>
+
+                    <input
+                        type="text"
+                        [(ngModel)]="novaProvaEditada.materia"
+                    >
+
+                </div>
+
+                <div class="campo">
+
+                    <label>Data</label>
+
+                    <input
+                        type="date"
+                        [(ngModel)]="novaProvaEditada.data"
+                    >
+
+                </div>
+
+                <div class="campo">
+
+                    <label>Trimestre</label>
+
+                    <input
+                        type="number"
+                        [(ngModel)]="novaProvaEditada.trimestre"
+                    >
+
+                </div>
+
+                <div class="conteudos-form">
+
+                    <h3>Conteúdos</h3>
+
+                    @for (
+                        conteudo of novaProvaEditada.conteudos;
+                        track $index
+                    ) {
+
+                        <div class="conteudo-input">
+
+                            <input
+                                type="text"
+                                placeholder="Nome do conteúdo"
+                                [(ngModel)]="conteudo.nome"
+                            >
+
+                            <button
+                                class="btn-remover"
+                                (click)="removerConteudoEditado($index)"
+                            >
+                                Remover
+                            </button>
+
+                        </div>
+
+                    }
+
+                    <button
+                        class="btn btn-conteudo"
+                        (click)="adicionarConteudoProvaEditada()"
+                    >
+                        + Adicionar conteúdo
+                    </button>
+
+                </div>
+
+                <button
+                    class="btn btn-criar"
+                    (click)="salvarEdicao()"
+                >
+                    Salvar alterações
+                </button>
+
+            </div>
+
+        </div>
+
+    }
+
+
+    <section class="lista-provas">
+
+        @for (prova of getProvasFiltradas(); track prova.id) {
+
+            <article class="card-prova">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>{{ prova.materia }}</h3>
+
+                        <span class="trimestre">
+                            {{ prova.trimestre }}º trimestre
+                        </span>
+
+                    </div>
+
+                    @if (authService.ehAdmin()) {
+
+                        <div class="acoes-card">
+
+                            <button
+                                class="btn-editar"
+                                (click)="abrirFormularioEdicao(prova)"
+                            >
+                                Editar
+                            </button>
+
+                            <button
+                                class="btn-deletar"
+                                (click)="deletarProva(prova.id)"
+                            >
+                                Deletar
+                            </button>
+
+                        </div>
+                    }
+
+                </div>
+
+
+                <div class="informacoes">
+
+                    <div class="info">
+
+                        <span>Data</span>
+
+                        <strong>
+                            {{ prova.data }}
+                        </strong>
+
+                    </div>
+
+                    <div class="info">
+
+                        <span>Conteúdos</span>
+
+                        <strong>
+                            {{ prova.conteudosConcluidos }}/{{ prova.totalConteudos }}
+                        </strong>
+
+                    </div>
+
+                    <div class="info">
+
+                        <span>Progresso</span>
+
+                        <strong>
+                            {{ prova.progresso | number:'1.0-0' }}%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="barra">
+
+                    <div
+                        class="barra-progresso"
+                        [style.width.%]="prova.progresso"
+                    ></div>
+
+                </div>
+
+
+                <div class="lista-conteudos">
+
+                    @for (conteudo of prova.conteudos; track conteudo.id) {
+
+                        <label class="conteudo">
+
+                            <input
+                                type="checkbox"
+                                [checked]="conteudo.concluido"
+                                (change)="alterarEstado(
+                                    conteudo.id,
+                                    $any($event.target).checked
+                                )"
+                            >
+
+                            <span
+                                [class.concluido]="conteudo.concluido"
+                            >
+                                {{ conteudo.nome }}
+                            </span>
+
+                        </label>
+
+                    }
+
+                </div>
+
+            </article>
+
+        }
+
+    </section>
+
+</div>

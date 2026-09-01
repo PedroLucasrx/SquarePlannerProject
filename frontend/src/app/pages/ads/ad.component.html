@@ -1,0 +1,482 @@
+<div class="pagina-ads">
+
+    <!-- =========================
+         CABEÇALHO
+    ========================== -->
+
+    <header class="cabecalho">
+
+        <div>
+            <h1>Atividades Diversificadas</h1>
+
+            <p>
+                Organize suas atividades e acompanhe seu progresso.
+            </p>
+        </div>
+
+        <div class="acoes">
+
+            <button
+                class="btn btn-voltar"
+                (click)="voltarParaHome()"
+            >
+                Voltar para Home
+            </button>
+
+            @if (authService.ehAdmin()) {
+
+                <button
+                    class="btn btn-adicionar"
+                    (click)="abrirFormulario()"
+                >
+                    + Adicionar atividade
+                </button>
+
+            }
+
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         RESUMO
+    ========================== -->
+
+    <section class="resumo">
+
+        <div class="titulo-ads">
+
+            <div>
+
+                <h2>Minhas atividades</h2>
+
+                <p>
+                    Acompanhe suas ADs e veja quanto já concluiu.
+                </p>
+
+            </div>
+
+
+            <!-- FILTRO -->
+
+            <select
+                class="filtro-trimestre"
+                [(ngModel)]="trimestreSelecionado"
+            >
+
+                <option [ngValue]="0">
+                    Todos os trimestres
+                </option>
+
+                <option [ngValue]="1">
+                    1º trimestre
+                </option>
+
+                <option [ngValue]="2">
+                    2º trimestre
+                </option>
+
+                <option [ngValue]="3">
+                    3º trimestre
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- PROGRESSO -->
+
+        <div class="progresso-total">
+
+            <span>
+                Progresso geral
+            </span>
+
+            <strong>
+                {{ getProgressoTotal() | number:'1.0-0' }}%
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FORMULÁRIO NOVA AD
+    ========================== -->
+
+    @if (mostrarFormulario) {
+
+        <div class="overlay">
+
+            <div class="formulario">
+
+                <div class="formulario-header">
+
+                    <h2>Nova atividade</h2>
+
+                    <button
+                        class="btn-fechar"
+                        (click)="fecharFormulario()"
+                    >
+                        X
+                    </button>
+
+                </div>
+
+
+                <!-- MATÉRIA -->
+
+                <div class="campo">
+
+                    <label>
+                        Matéria
+                    </label>
+
+                    <input
+                        type="text"
+                        placeholder="Ex: Biologia"
+                        [(ngModel)]="novaAd.materia"
+                    >
+
+                </div>
+
+
+                <!-- DATA -->
+
+                <div class="campo">
+
+                    <label>
+                        Data
+                    </label>
+
+                    <input
+                        type="date"
+                        [(ngModel)]="novaAd.data"
+                    >
+
+                </div>
+
+
+                <!-- TRIMESTRE -->
+
+                <div class="campo">
+
+                    <label>
+                        Trimestre
+                    </label>
+
+                    <select
+                        [(ngModel)]="novaAd.trimestre"
+                    >
+
+                        <option [value]="1">
+                            1º trimestre
+                        </option>
+
+                        <option [value]="2">
+                            2º trimestre
+                        </option>
+
+                        <option [value]="3">
+                            3º trimestre
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PROPOSTA -->
+
+                <div class="campo">
+
+                    <label>
+                        Proposta
+                    </label>
+
+                    <textarea
+                        placeholder="Descreva a proposta da atividade..."
+                        [(ngModel)]="novaAd.proposta"
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    class="btn btn-criar"
+                    (click)="criarAd()"
+                >
+                    Criar atividade
+                </button>
+
+            </div>
+
+        </div>
+
+    }
+
+
+    <!-- =========================
+         FORMULÁRIO DE EDIÇÃO
+    ========================== -->
+
+    @if (mostrarFormularioEdicao) {
+
+        <div class="overlay">
+
+            <div class="formulario">
+
+                <div class="formulario-header">
+
+                    <h2>Editar atividade</h2>
+
+                    <button
+                        class="btn-fechar"
+                        (click)="fecharFormularioEdicao()"
+                    >
+                        X
+                    </button>
+
+                </div>
+
+
+                <!-- MATÉRIA -->
+
+                <div class="campo">
+
+                    <label>
+                        Matéria
+                    </label>
+
+                    <input
+                        type="text"
+                        [(ngModel)]="novaAdEditada.materia"
+                    >
+
+                </div>
+
+
+                <!-- DATA -->
+
+                <div class="campo">
+
+                    <label>
+                        Data
+                    </label>
+
+                    <input
+                        type="date"
+                        [(ngModel)]="novaAdEditada.data"
+                    >
+
+                </div>
+
+
+                <!-- TRIMESTRE -->
+
+                <div class="campo">
+
+                    <label>
+                        Trimestre
+                    </label>
+
+                    <select
+                        [(ngModel)]="novaAdEditada.trimestre"
+                    >
+
+                        <option [value]="1">
+                            1º trimestre
+                        </option>
+
+                        <option [value]="2">
+                            2º trimestre
+                        </option>
+
+                        <option [value]="3">
+                            3º trimestre
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PROPOSTA -->
+
+                <div class="campo">
+
+                    <label>
+                        Proposta
+                    </label>
+
+                    <textarea
+                        [(ngModel)]="novaAdEditada.proposta"
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    class="btn btn-criar"
+                    (click)="salvarEdicao()"
+                >
+                    Salvar alterações
+                </button>
+
+            </div>
+
+        </div>
+
+    }
+
+
+    <!-- =========================
+         LISTA DE ADS
+    ========================== -->
+
+    <section class="lista-ads">
+
+        @for (
+            ad of getAdsFiltradas();
+            track ad.id
+        ) {
+
+            <article class="card-ad">
+
+
+                <!-- HEADER -->
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            {{ ad.materia }}
+                        </h3>
+
+                        <span class="trimestre">
+                            {{ ad.trimestre }}º trimestre
+                        </span>
+
+                    </div>
+
+
+                    
+                    
+                    @if (authService.ehAdmin()) {
+                        <div class="acoes-card">
+
+                        <button
+                            class="btn-editar"
+                            (click)="abrirFormularioEdicao(ad)"
+                        >
+                            Editar
+                        </button>
+
+                        <button
+                            class="btn-deletar"
+                            (click)="deletarAd(ad.id)"
+                        >
+                            Deletar
+                        </button>
+
+                        </div>
+                    }   
+
+                </div>
+
+
+                <!-- INFORMAÇÕES -->
+
+                <div class="informacoes">
+
+                    <div class="info">
+
+                        <span>
+                            Data
+                        </span>
+
+                        <strong>
+                            {{ ad.data }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong
+                            [class.status-concluido]="ad.concluido"
+                            [class.status-pendente]="!ad.concluido"
+                        >
+                            {{ ad.concluido ? 'Concluída' : 'Pendente' }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROPOSTA -->
+
+                <div class="proposta">
+
+                    <span>
+                        Proposta
+                    </span>
+
+                    <p>
+                        {{ ad.proposta }}
+                    </p>
+
+                </div>
+
+
+                <!-- CONCLUSÃO -->
+
+                <label class="conclusao">
+
+                    <input
+                        type="checkbox"
+                        [checked]="ad.concluido"
+                        (change)="alterarEstado(
+                            ad.id,
+                            $any($event.target).checked
+                        )"
+                    >
+
+                    <span
+                        [class.concluido]="ad.concluido"
+                    >
+                        Marcar como concluída
+                    </span>
+
+                </label>
+
+
+                <!-- BARRA -->
+
+                <div class="barra">
+
+                    <div
+                        class="barra-progresso"
+                        [style.width.%]="ad.concluido ? 100 : 0"
+                    ></div>
+
+                </div>
+
+            </article>
+
+        }
+
+    </section>
+
+</div>

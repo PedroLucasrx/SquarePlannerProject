@@ -1,0 +1,425 @@
+<div class="pagina-eventos">
+
+    <!-- ==========================================
+         CABEÇALHO
+    =========================================== -->
+
+    <header class="cabecalho">
+
+        <div>
+            <h1>Eventos</h1>
+
+            <p>
+                Organize seus compromissos e acompanhe suas próximas datas.
+            </p>
+        </div>
+
+        <div class="acoes">
+
+            <button
+                class="btn btn-voltar"
+                (click)="voltarParaHome()"
+            >
+                Voltar para Home
+            </button>
+
+            @if (authService.ehAdmin()) {
+
+                <button
+                    class="btn btn-adicionar"
+                    (click)="abrirFormulario()"
+                >
+                    + Adicionar evento
+                </button>
+            }
+
+        </div>
+
+    </header>
+
+
+    <!-- ==========================================
+         CONTEÚDO PRINCIPAL
+    =========================================== -->
+
+    <main class="conteudo-principal">
+
+
+        <!-- ======================================
+             CALENDÁRIO
+        ======================================= -->
+
+        <section class="calendario-container">
+
+            <!-- HEADER DO CALENDÁRIO -->
+
+            <div class="calendario-header">
+
+                <div class="navegacao-mes">
+
+                    <button
+                        class="btn-navegacao"
+                        (click)="mesAnterior()"
+                    >
+                        ‹
+                    </button>
+
+                    <h2>
+                        {{ nomeMesAtual }}
+                    </h2>
+
+                    <button
+                        class="btn-navegacao"
+                        (click)="proximoMes()"
+                    >
+                        ›
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="btn-hoje"
+                    (click)="irParaHoje()"
+                >
+                    Hoje
+                </button>
+
+            </div>
+
+
+            <!-- DIAS DA SEMANA -->
+
+            <div class="dias-semana">
+
+                <div>Seg</div>
+                <div>Ter</div>
+                <div>Qua</div>
+                <div>Qui</div>
+                <div>Sex</div>
+                <div>Sáb</div>
+                <div>Dom</div>
+
+            </div>
+
+
+            <!-- GRID -->
+
+            <div class="grid-calendario">
+
+                @for (
+                    dia of diasCalendario;
+                    track $index
+                ) {
+
+                    <div
+                        class="dia"
+                        [class.outro-mes]="!ehMesAtual(dia)"
+                        [class.hoje]="ehHoje(dia)"
+                    >
+
+                        <!-- NÚMERO -->
+
+                        <div class="numero-dia">
+
+                            <span>
+                                {{ dia.getDate() }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- EVENTOS -->
+
+                        <div class="eventos-dia">
+
+                            @for (
+                                evento of getEventosDoDia(dia);
+                                track evento.id
+                            ) {
+
+                                <button
+                                    class="evento"
+                                    (click)="abrirEvento(evento)"
+                                    [title]="evento.nome"
+                                >
+
+                                    <span class="ponto"></span>
+
+                                    <span class="nome-evento">
+                                        {{ evento.nome }}
+                                    </span>
+
+                                </button>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+        </section>
+
+
+        <!-- ======================================
+             LISTA DE EVENTOS
+        ======================================= -->
+
+        <section class="lista-container">
+
+            <div class="lista-header">
+
+                <div>
+
+                    <h2>Meus eventos</h2>
+
+                    <p>
+                        Seus compromissos cadastrados.
+                    </p>
+
+                </div>
+
+                <span class="contador">
+                    {{ eventos.length }}
+                    {{ eventos.length === 1 ? 'evento' : 'eventos' }}
+                </span>
+
+            </div>
+
+
+            <!-- LISTA -->
+
+            <div class="lista-eventos">
+
+                @for (
+                    evento of eventos;
+                    track evento.id
+                ) {
+
+                    <article class="card-evento">
+
+                        <!-- DATA -->
+
+                        <div class="data-evento">
+
+                            <div class="icone-data">
+                                📅
+                            </div>
+
+                            <div>
+
+                                <span>
+                                    Data
+                                </span>
+
+                                <strong>
+                                    {{ evento.data }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- NOME -->
+
+                        <div class="info-evento">
+
+                            <h3>
+                                {{ evento.nome }}
+                            </h3>
+
+                        </div>
+
+
+                        <!-- AÇÕES -->
+
+                        @if (authService.ehAdmin()) {
+
+                            <div class="acoes-card">
+
+                                <button
+                                    class="btn-editar"
+                                    (click)="abrirFormularioEdicao(evento)"
+                                >
+                                    Editar
+                                </button>
+
+                                <button
+                                    class="btn-deletar"
+                                    (click)="deletarEvento(evento.id)"
+                                >
+                                    Deletar
+                                </button>
+
+                            </div>
+                        }
+
+                    </article>
+
+                }
+
+                @if (eventos.length === 0) {
+
+                    <div class="sem-eventos">
+
+                        <span>
+                            📅
+                        </span>
+
+                        <h3>
+                            Nenhum evento cadastrado
+                        </h3>
+
+                        <p>
+                            Adicione um evento para começar a organizar suas datas.
+                        </p>
+
+                    </div>
+
+                }
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==========================================
+         FORMULÁRIO NOVO EVENTO
+    =========================================== -->
+
+    @if (mostrarFormulario) {
+
+        <div class="overlay">
+
+            <div class="formulario">
+
+                <div class="formulario-header">
+
+                    <h2>Novo evento</h2>
+
+                    <button
+                        class="btn-fechar"
+                        (click)="fecharFormulario()"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Nome
+                    </label>
+
+                    <input
+                        type="text"
+                        placeholder="Ex: Reunião da equipe"
+                        [(ngModel)]="novoEvento.nome"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Data
+                    </label>
+
+                    <input
+                        type="date"
+                        [(ngModel)]="novoEvento.data"
+                    >
+
+                </div>
+
+
+                <button
+                    class="btn btn-criar"
+                    (click)="criarEvento()"
+                >
+                    Criar evento
+                </button>
+
+            </div>
+
+        </div>
+
+    }
+
+
+    <!-- ==========================================
+         FORMULÁRIO DE EDIÇÃO
+    =========================================== -->
+
+    @if (mostrarFormularioEdicao) {
+
+        <div class="overlay">
+
+            <div class="formulario">
+
+                <div class="formulario-header">
+
+                    <h2>Editar evento</h2>
+
+                    <button
+                        class="btn-fechar"
+                        (click)="fecharFormularioEdicao()"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Nome
+                    </label>
+
+                    <input
+                        type="text"
+                        [(ngModel)]="novoEventoEditado.nome"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Data
+                    </label>
+
+                    <input
+                        type="date"
+                        [(ngModel)]="novoEventoEditado.data"
+                    >
+
+                </div>
+
+
+                <button
+                    class="btn btn-criar"
+                    (click)="salvarEdicao()"
+                >
+                    Salvar alterações
+                </button>
+
+            </div>
+
+        </div>
+
+    }
+
+</div>

@@ -1,0 +1,81 @@
+<div class="home">
+
+    <header class="header">
+
+        <h1>Square Planner</h1>
+
+        @if (authService.logado()) {
+            <p>
+                Olá, {{ authService.usuario()?.nome }}!
+            </p>
+        }
+
+    </header>
+
+
+    @if (authService.logado()) {
+
+        <main class="menu">
+
+            <button
+                class="menu-item"
+                routerLink="/provas"
+            >
+                Provas
+            </button>
+
+            <button
+                class="menu-item"
+                routerLink="/ads"
+            >
+                ADs
+            </button>
+
+            <button
+                class="menu-item"
+                routerLink="/tarefas"
+            >
+                Tarefas
+            </button>
+
+            <button
+                class="menu-item"
+                routerLink="/eventos"
+            >
+                Eventos
+            </button>
+
+        </main>
+
+
+        <button
+            class="btn-sair"
+            (click)="sair()"
+        >
+            Sair
+        </button>
+
+    }
+
+
+    @if (!authService.logado()) {
+
+        <main class="login">
+
+            <p>
+                Você não está logado.
+            </p>
+
+            <button
+                class="btn-entrar"
+                routerLink="/login"
+            >
+                Entrar
+            </button>
+
+        </main>
+
+    }
+
+</div>
+

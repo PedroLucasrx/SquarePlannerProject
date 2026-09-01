@@ -1,0 +1,180 @@
+.cadastro-page {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #f5f3ff;
+
+    padding: 20px;
+}
+
+
+.cadastro-card {
+    width: 100%;
+    max-width: 420px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+h1 {
+    text-align: center;
+
+    color: #6c4ab6;
+
+    margin-bottom: 5px;
+}
+
+
+h2 {
+    text-align: center;
+
+    margin-top: 10px;
+    margin-bottom: 5px;
+
+    color: #222;
+}
+
+
+.subtitulo {
+    text-align: center;
+
+    color: #777;
+
+    margin-bottom: 30px;
+}
+
+
+.campo {
+    display: flex;
+
+    flex-direction: column;
+
+    margin-bottom: 18px;
+}
+
+
+.campo label {
+    margin-bottom: 7px;
+
+    font-weight: 600;
+
+    color: #444;
+}
+
+
+.campo input {
+    padding: 12px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+
+.campo input:focus {
+    border-color: #6c4ab6;
+
+    box-shadow:
+        0 0 0 3px rgba(108, 74, 182, 0.12);
+}
+
+
+button {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.botao-cadastrar {
+    background: #6c4ab6;
+
+    color: white;
+
+    margin-top: 8px;
+}
+
+
+.botao-cadastrar:hover {
+    background: #59399e;
+
+    transform: translateY(-1px);
+}
+
+
+.botao-voltar {
+    background: transparent;
+
+    color: #6c4ab6;
+
+    margin-top: 10px;
+}
+
+
+.botao-voltar:hover {
+    background: #f1edff;
+}
+
+
+.mensagem {
+    text-align: center;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    margin-bottom: 15px;
+}
+
+
+.erro {
+    background: #ffe5e5;
+
+    color: #c62828;
+}
+
+
+.sucesso {
+    background: #e5f7e9;
+
+    color: #2e7d32;
+}
+
+
+@media (max-width: 500px) {
+
+    .cadastro-page {
+        padding: 15px;
+    }
+
+    .cadastro-card {
+        padding: 28px 22px;
+    }
+
+}

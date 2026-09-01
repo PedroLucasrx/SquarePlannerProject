@@ -1,0 +1,66 @@
+<div class="login-page">
+
+    <div class="login-card">
+
+        <h1>Square Planner</h1>
+
+        <h2>Bem-vindo de volta</h2>
+
+        <p class="subtitulo">
+            Entre na sua conta para continuar
+        </p>
+
+
+        <div class="campo">
+
+            <label>
+                Email
+            </label>
+
+            <input
+                type="email"
+                placeholder="Digite seu email"
+                [(ngModel)]="email"
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label>
+                Senha
+            </label>
+
+            <input
+                type="password"
+                placeholder="Digite sua senha"
+                [(ngModel)]="senha"
+            >
+
+        </div>
+
+
+        <button
+            class="btn-entrar"
+            (click)="login()"
+        >
+            Entrar
+        </button>
+
+
+        <div class="separador">
+            <span>ou</span>
+        </div>
+
+
+        <button
+            class="btn-cadastro"
+            (click)="irParaCadastro()"
+        >
+            Criar uma conta
+        </button>
+
+    </div>
+
+</div>
