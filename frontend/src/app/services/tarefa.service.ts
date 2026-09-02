@@ -35,7 +35,7 @@ export interface EditarTarefa {
 
 export class TarefaService {
 
-  private apiUrl = 'http://localhost:8081/tarefas';
+  private apiUrl = 'https://squareplannerproject.onrender.com/tarefas';
 
   constructor(private http: HttpClient) {}
 
@@ -49,20 +49,20 @@ export class TarefaService {
 
   deletarTarefa(id: number): Observable<any> {
     return this.http.delete(
-      `http://localhost:8081/tarefas/${id}`
+      `https://squareplannerproject.onrender.com/tarefas/tarefas/${id}`
     );
   }
 
   editarEstadoAtividade(id: number, concluido: boolean): Observable<any> {
     return this.http.put(
-      `http://localhost:8081/tarefas/atividades/${id}/estado`,
+      `https://squareplannerproject.onrender.com/tarefas/atividades/${id}/estado`,
       { concluido: concluido }
     );
   }
 
   deletarAtividade(id: number): Observable<any> {
     return this.http.delete(
-      `http://localhost:8081/tarefas/atividades/${id}`
+      `https://squareplannerproject.onrender.com/tarefas/atividades/${id}`
     );
   }
 

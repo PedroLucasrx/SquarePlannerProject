@@ -21,7 +21,7 @@ export interface AdsResponse {
 
 export class AdService {
 
-  private apiUrl = 'http://localhost:8081/ads';
+  private apiUrl = 'https://squareplannerproject.onrender.com/ads';
 
   constructor(private http: HttpClient) {}
 
@@ -39,13 +39,13 @@ export class AdService {
 
   deletarAd(id: number): Observable<any> {
     return this.http.delete(
-      `http://localhost:8081/ads/${id}`
+      `https://squareplannerproject.onrender.com/ads/${id}`
     );
   }
 
   editarEstadoAd(id: number, concluido: boolean): Observable<any> {
     return this.http.put( 
-      `http://localhost:8081/ads/${id}/estado`,
+      `https://squareplannerproject.onrender.com/ads/${id}/estado`,
       { concluido: concluido }
     );
   }

@@ -21,7 +21,7 @@ export class CadastroComponent {
   mensagemErro = '';
   mensagemSucesso = '';
 
-  private apiUrl = 'http://localhost:8081/auth';
+  private apiUrl = 'https://squareplannerproject.onrender.com/auth';
 
   constructor(
     private http: HttpClient,

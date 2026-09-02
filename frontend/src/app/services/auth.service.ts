@@ -22,7 +22,7 @@ interface UsuarioLogado {
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8081/auth';
+  private apiUrl = 'https://squareplannerproject.onrender.com/auth';
 
   private logadoSignal = signal(
     localStorage.getItem('token') !== null

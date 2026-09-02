@@ -31,7 +31,7 @@ export interface EditarProva {
 
 export class ProvaService {
 
-    private apiUrl = 'http://localhost:8081/provas';
+    private apiUrl = 'https://squareplannerproject.onrender.com/provas';
 
     constructor(private http: HttpClient) {}
 
@@ -49,14 +49,14 @@ export class ProvaService {
     
     editarEstadoConteudo(id: number, concluido: boolean): Observable<any> {
         return this.http.put(
-            `http://localhost:8081/provas/conteudos/${id}/estado`,
+            `https://squareplannerproject.onrender.com/provas/conteudos/${id}/estado`,
             { concluido: concluido }
         );
     }
 
     deletarConteudo(id: number): Observable<any> {
         return this.http.delete(
-            `http://localhost:8081/provas/conteudos/${id}`
+            `https://squareplannerproject.onrender.com/provas/conteudos/${id}`
         );
     }
 
@@ -66,7 +66,7 @@ export class ProvaService {
 
     deletarProva(id: number): Observable<any> {
         return this.http.delete(
-            `http://localhost:8081/provas/${id}`
+            `https://squareplannerproject.onrender.com/provas/${id}`
         );
     }
 }

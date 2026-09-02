@@ -13,7 +13,7 @@ export interface CriarEvento {
   providedIn: 'root'
 })
 export class EventoService {
-  private apiUrl = 'http://localhost:8081/eventos';
+  private apiUrl = 'https://squareplannerproject.onrender.com/eventos';
 
   constructor(private http: HttpClient) {}
 
@@ -31,7 +31,7 @@ export class EventoService {
   
   deletarEvento(id: number): Observable<any> {
     return this.http.delete(
-      `http://localhost:8081/eventos/${id}`
+      `https://squareplannerproject.onrender.com/eventos/${id}`
     );
   }
 }
