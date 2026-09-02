@@ -3,7 +3,7 @@
   "name": "squareplannerproject",
   "compatibility_date": "2026-09-01",
   "assets": {
-    "directory": "./dist/square-app",
+    "directory": "./dist/square-app/browser",
     "not_found_handling": "single-page-application"
   }
 }
