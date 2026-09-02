@@ -199,9 +199,13 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration = new CorsConfiguration();
+        
 
         configuration.setAllowedOrigins(
-                List.of("http://localhost:4200")
+                List.of(
+                        "http://localhost:4200",
+                        "https://squareplannerproject.pedrolucasrxsantoss.workers.dev"
+                )
         );
 
         configuration.setAllowedMethods(
