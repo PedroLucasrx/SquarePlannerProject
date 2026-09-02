@@ -169,7 +169,8 @@ public class ProvasService {
         provaRepository.deleteById(id);
     }
 
-    public List<ProvaResponseDTO> listarProvas() {
+    //ANTIGO
+    /*public List<ProvaResponseDTO> listarProvas() {
 
         Authentication authentication =
                 SecurityContextHolder
@@ -237,6 +238,96 @@ public class ProvasService {
                             progresso
                     );
 
+                })
+                .toList();
+    }*/
+    //NOVO
+    public List<ProvaResponseDTO> listarProvas() {
+
+        Authentication authentication =
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication();
+
+        String email = authentication.getName();
+
+        Usuario usuario = usuarioRepository
+                .findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("Usuário não encontrado")
+                );
+
+        Long usuarioId = usuario.getId();
+
+        // Busca todas as provas de uma vez
+        List<Prova> provas = provaRepository.findAll();
+
+        // Busca todos os conteúdos de uma vez
+        List<Conteudo> todosConteudos = conteudoRepository.findAll();
+
+        // Busca todos os progressos desse usuário de uma vez
+        List<ProgressoConteudo> progressos =
+                progressoConteudoRepository.findByUsuarioId(usuarioId);
+
+        // conteudoId -> concluido
+        var progressoPorConteudo = progressos.stream()
+                .collect(Collectors.toMap(
+                        progresso -> progresso.getConteudo().getId(),
+                        ProgressoConteudo::isConcluido
+                ));
+
+        // provaId -> lista de conteúdos
+        var conteudosPorProva = todosConteudos.stream()
+                .collect(Collectors.groupingBy(
+                        Conteudo::getProvaId
+                ));
+
+        return provas.stream()
+                .map(prova -> {
+
+                    List<ConteudoResponseDTO> conteudos =
+                            conteudosPorProva
+                                    .getOrDefault(
+                                            prova.getId(),
+                                            List.of()
+                                    )
+                                    .stream()
+                                    .map(conteudo -> {
+
+                                        boolean concluido =
+                                                progressoPorConteudo.getOrDefault(
+                                                        conteudo.getId(),
+                                                        false
+                                                );
+
+                                        return new ConteudoResponseDTO(
+                                                conteudo.getId(),
+                                                conteudo.getNome(),
+                                                concluido
+                                        );
+                                    })
+                                    .toList();
+
+                    int total = conteudos.size();
+
+                    int concluidas = (int) conteudos.stream()
+                            .filter(ConteudoResponseDTO::concluido)
+                            .count();
+
+                    double progresso = total == 0
+                            ? 0
+                            : (double) concluidas / total * 100;
+
+                    return new ProvaResponseDTO(
+                            prova.getId(),
+                            prova.getMateria(),
+                            prova.getData(),
+                            prova.getTrimestre(),
+                            conteudos,
+                            concluidas,
+                            total,
+                            progresso
+                    );
                 })
                 .toList();
     }
