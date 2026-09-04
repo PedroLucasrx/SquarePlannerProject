@@ -3,6 +3,7 @@ package com.example.squarePlanner.service;
 import com.example.squarePlanner.dtos.ad.*;
 import com.example.squarePlanner.enity.Ad;
 import com.example.squarePlanner.enity.ProgressoAd;
+import com.example.squarePlanner.enity.ProgressoAtividades;
 import com.example.squarePlanner.enity.Usuario;
 import com.example.squarePlanner.exception.*;
 import com.example.squarePlanner.repository.AdRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AdService {
@@ -66,8 +68,8 @@ public class AdService {
     public Ad lerAd(Long id){
         return adRepository.findById(id).orElseThrow(() -> new AdNotFound("Ad não encontrada"));
     }
-
-    public AdsResponseDTO listarAds() {
+    //ANTIGO
+    /*public AdsResponseDTO listarAds() {
 
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
@@ -122,6 +124,63 @@ public class AdService {
                 totalAds,
                 progresso
         );
+    }*/
+    //NOVO
+    public AdsResponseDTO listarAds() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioNotFound("Usuario não encontrado"));
+        Long usuarioId = usuario.getId();
+
+        // Busca todas as ADs de uma vez
+        List<Ad> ads = adRepository.findAll();
+
+        // Busca todos os progressos de uma vez
+        List<ProgressoAd> progressos = progressoAdRepository.findByUsuarioId(usuarioId);
+
+        var progressoPorAd = progressos.stream().collect(Collectors.toMap(
+                progresso -> progresso.getAd().getId(),
+                ProgressoAd::isConcluido
+        ));
+
+        List<AdResponseDTO> adsResponse = ads.stream().map(
+                ad -> {
+                    boolean concuido = progressoPorAd.getOrDefault(
+                            ad.getId(),
+                            false
+                    );
+                    return  new AdResponseDTO(
+                            ad.getId(),
+                            ad.getMateria(),
+                            ad.getData(),
+                            ad.getTrimestre(),
+                            ad.getProposta(),
+                            concuido
+                    );
+                }
+        ).toList();
+
+        int totalAds = ads.size();
+
+        int adsConcluidas = (int) adsResponse.stream()
+                .filter(AdResponseDTO::concluido)
+                .count();
+
+        double progresso = totalAds == 0
+                ? 0
+                : (double) adsConcluidas / totalAds * 100;
+
+
+
+        return new AdsResponseDTO(
+                adsResponse,
+                adsConcluidas,
+                totalAds,
+                progresso
+        );
+
+
     }
 
     public void deletarAd(Long id){
