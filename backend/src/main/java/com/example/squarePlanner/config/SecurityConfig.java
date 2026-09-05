@@ -97,7 +97,7 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 HttpMethod.PUT,
-                                "tarefas/atividades/{id}/estado"
+                                "/tarefas/atividades/{id}/estado"
                         ).authenticated()
 
                         .requestMatchers(
