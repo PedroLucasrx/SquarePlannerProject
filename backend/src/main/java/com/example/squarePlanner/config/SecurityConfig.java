@@ -60,7 +60,7 @@ public class SecurityConfig {
                         // AUTENTICAÇÃO
                         // =========================
 
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**", "/health").permitAll()
                        
 
 
@@ -199,7 +199,6 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration configuration = new CorsConfiguration();
-        
 
         configuration.setAllowedOrigins(
                 List.of(
