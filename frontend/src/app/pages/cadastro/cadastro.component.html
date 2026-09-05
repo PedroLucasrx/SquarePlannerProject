@@ -92,8 +92,14 @@
         <button
             class="botao-cadastrar"
             (click)="cadastrar()"
+            [disabled]="carregando"
         >
+        @if (carregando) {
+            <span class="spinner"></span>
+            Criando conta...
+        } @else {
             Criar conta
+        }
         </button>
 
 

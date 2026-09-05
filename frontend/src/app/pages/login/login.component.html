@@ -41,12 +41,26 @@
         </div>
 
 
+    
+
         <button
             class="btn-entrar"
             (click)="login()"
+            [disabled]="carregando"
         >
+        @if (carregando) {
+            <span class="spinner"></span>
+            Entrando...
+        } @else {
             Entrar
+        }
         </button>
+
+        @if (mensagemErro) {
+            <p class="mensagem-erro">
+                {{ mensagemErro }}
+            </p>
+        }
 
 
         <div class="separador">
@@ -60,6 +74,7 @@
         >
             Criar uma conta
         </button>
+
 
     </div>
 

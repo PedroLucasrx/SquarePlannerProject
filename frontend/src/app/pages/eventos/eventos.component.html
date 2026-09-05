@@ -7,7 +7,12 @@
     <header class="cabecalho">
 
         <div>
-            <h1>Eventos</h1>
+            <h1 class="titulo-eventos">
+                Eventos
+                @if (carregandoEventos) {
+                    <span class="spinner"></span>
+                }
+            </h1>
 
             <p>
                 Organize seus compromissos e acompanhe suas próximas datas.

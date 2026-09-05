@@ -7,7 +7,13 @@
     <header class="cabecalho">
 
         <div>
-            <h1>Atividades Diversificadas</h1>
+            <h1 class="titulo-ads">
+                Atividades Diversificadas
+                
+                @if (carregandoAds) {
+                    <span class="spinner"></span>
+                }
+            </h1>
 
             <p>
                 Organize suas atividades e acompanhe seu progresso.

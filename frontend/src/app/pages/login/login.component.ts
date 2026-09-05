@@ -16,41 +16,69 @@ export class LoginComponent {
   email = '';
   senha = '';
 
+  carregando = false;
+  mensagemErro = '';
+
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
 
-    login(): void {
+  login(): void {
 
-        this.authService.login({
-            email: this.email,
-            senha: this.senha
-        }).subscribe({
+    // Limpa erro anterior
+    this.mensagemErro = '';
 
-            next: () => {
-
-                console.log('Login realizado!');
-
-                this.router.navigate(['/']);
-
-            },
-
-            error: (erro) => {
-
-                console.error(
-                    'Erro ao fazer login:',
-                    erro
-                );
-
-            }
-
-        });
-
+    // Evita múltiplos cliques
+    if (this.carregando) {
+      return;
     }
 
-    irParaCadastro(): void {
-        this.router.navigate(['/cadastro']);
-    }
+    this.carregando = true;
+
+    this.authService.login({
+      email: this.email,
+      senha: this.senha
+    }).subscribe({
+
+      next: () => {
+
+        console.log('Login realizado!');
+
+        this.carregando = false;
+
+        this.router.navigate(['/']);
+
+      },
+
+      error: (erro) => {
+
+        console.error(
+          'Erro ao fazer login:',
+          erro
+        );
+
+        this.carregando = false;
+
+        if (erro.status === 401 || erro.status === 403) {
+
+          this.mensagemErro = 'Email ou senha incorretos.';
+
+        } else {
+
+          this.mensagemErro =
+            'Não foi possível conectar ao servidor. Tente novamente.';
+
+        }
+
+      }
+
+    });
+
+  }
+
+  irParaCadastro(): void {
+    this.router.navigate(['/cadastro']);
+  }
 
 }

@@ -33,6 +33,7 @@ export class EventosComponent {
 
   mostrarFormulario = false;
   mostrarFormularioEdicao = false;
+  carregandoEventos = false;
 
   novoEventoEditado: CriarEvento = {
     nome: '',
@@ -85,11 +86,14 @@ export class EventosComponent {
 
   carregarEventos(): void {
 
+    this.carregandoEventos = true;
+
     this.EventoService.listarEventos().subscribe({
 
       next: (dados) => {
 
         this.eventos = dados;
+        this.carregandoEventos = false;
 
       },
 
@@ -99,6 +103,8 @@ export class EventosComponent {
           'Erro ao buscar eventos:',
           erro
         );
+
+        this.carregandoEventos = false;
 
       }
 

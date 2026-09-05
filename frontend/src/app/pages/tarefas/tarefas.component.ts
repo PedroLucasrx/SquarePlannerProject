@@ -42,6 +42,7 @@ export class TarefasComponent {
 
   mostrarFormulario = false;
   mostrarFormularioEdicao = false;
+  carregandoTarefas = false;
   
 
   constructor(
@@ -55,17 +56,20 @@ export class TarefasComponent {
 
   carregarTarefas(): void {
 
-  this.tarefaService.listarTarefas().subscribe({
+    this.carregandoTarefas = true;
+    this.tarefaService.listarTarefas().subscribe({
 
-    next: (dados) => {
-      this.tarefas = dados;
-    },
+      next: (dados) => {
+        this.tarefas = dados;
+        this.carregandoTarefas = false;
+      },
 
-    error: (erro) => {
-      console.error('Erro ao buscar tarefas:', erro);
-    }
+      error: (erro) => {
+        console.error('Erro ao buscar tarefas:', erro);
+        this.carregandoTarefas = false;
+      }
 
-    });
+      });
 
   }
 

@@ -25,6 +25,7 @@ export class ProvasComponent implements OnInit {
 
     mostrarFormulario = false;
     mostrarFormularioEdicao = false;
+    carregandoProvas = false;
     
 
     novaProva: CriarProva = {
@@ -56,14 +57,18 @@ export class ProvasComponent implements OnInit {
 
     carregarProvas(): void {
 
+        this.carregandoProvas = true;
+
         this.provaService.listarProvas().subscribe({
 
             next: (dados) => {
                 this.provas = dados;
+                this.carregandoProvas = false;
             },
 
             error: (erro) => {
                 console.error('Erro ao buscar provas:', erro);
+                this.carregandoProvas = false;
             }
 
         });

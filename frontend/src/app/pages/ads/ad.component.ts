@@ -36,6 +36,7 @@ export class AdComponent {
   adSelecionado?: Ad;
 
   mostrarFormularioEdicao = false;
+  carregandoAds = false;
 
   novaAdEditada: CriarAd = {
     materia: '',
@@ -60,12 +61,25 @@ export class AdComponent {
     this.carregarAds();
   }
 
-  carregarAds(): void {
-    this.AdService.listarAds().subscribe(dados => {
-      this.ads = dados.ads;
-      this.adsConcluidas = dados.adsConcluidas;
-      this.totalAds = dados.totalAds;
-      this.progresso = dados.progresso;
+ carregarAds(): void {
+    this.carregandoAds = true;
+
+    this.AdService.listarAds().subscribe({
+      next: (dados) => {
+        this.ads = dados.ads;
+        this.adsConcluidas = dados.adsConcluidas;
+        this.totalAds = dados.totalAds;
+        this.progresso = dados.progresso;
+        this.carregandoAds = false;
+      },
+      error: (erro) => {
+        console.error(
+          'Erro ao buscar ADs:',
+          erro
+        );
+        this.carregandoAds = false;
+      }
+
     });
 
   }

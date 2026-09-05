@@ -2,7 +2,13 @@
 
     <header class="cabecalho">
         <div>
-            <h1>Provas</h1>
+            <h1 class="titulo-provas">
+                Provas
+
+                @if (carregandoProvas) {
+                <span class="spinner"></span>
+                }
+            </h1>
             <p>Organize suas provas e acompanhe seu progresso.</p>
         </div>
 

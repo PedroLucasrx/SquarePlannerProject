@@ -20,6 +20,7 @@ export class CadastroComponent {
 
   mensagemErro = '';
   mensagemSucesso = '';
+  carregando = false;
 
   private apiUrl = 'https://squareplannerproject.onrender.com/auth';
 
@@ -32,6 +33,11 @@ export class CadastroComponent {
 
     this.mensagemErro = '';
     this.mensagemSucesso = '';
+
+    // Evita múltiplos cliques
+    if (this.carregando) {
+      return;
+    }
 
     // Verifica se todos os campos foram preenchidos
     if (
@@ -62,12 +68,17 @@ export class CadastroComponent {
       senha: this.senha
     };
 
+    // Começa o carregamento
+    this.carregando = true;
+
     this.http.post(
       `${this.apiUrl}/cadastro`,
       dados
     ).subscribe({
 
       next: () => {
+
+        this.carregando = false;
 
         this.mensagemSucesso =
           'Cadastro realizado com sucesso!';
@@ -92,6 +103,8 @@ export class CadastroComponent {
           erro
         );
 
+        this.carregando = false;
+
         if (erro.error?.mensagem) {
 
           this.mensagemErro =
@@ -100,7 +113,8 @@ export class CadastroComponent {
         } else {
 
           this.mensagemErro =
-            'Não foi possível realizar o cadastro.';
+            'Não foi possível realizar o cadastro. Tente novamente.';
+
         }
 
       }
