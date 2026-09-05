@@ -87,6 +87,23 @@ public class SecurityConfig {
                                 HttpMethod.GET,
                                 "/eventos/**"
                         ).authenticated()
+                        // =========================
+                        // ESTADO
+                        // =========================
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/provas/conteudos/{id}/estado"
+                        ).authenticated()
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "tarefas/atividades/{id}/estado"
+                        ).authenticated()
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/ads/{id}/estado"
+                        ).authenticated()
 
 
                         // =========================
