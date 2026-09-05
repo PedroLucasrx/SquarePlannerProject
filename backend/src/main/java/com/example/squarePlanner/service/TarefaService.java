@@ -2,6 +2,7 @@ package com.example.squarePlanner.service;
 
 import com.example.squarePlanner.dtos.atividades.AtividadesResponseDTO;
 import com.example.squarePlanner.dtos.atividades.EditarAtividadeDTO;
+import com.example.squarePlanner.dtos.atividades.EditarEstadoAtividadeDTO;
 import com.example.squarePlanner.dtos.tarefas.CriarTarefaAtividadeDTO;
 import com.example.squarePlanner.dtos.tarefas.CriarTarefaDTO;
 import com.example.squarePlanner.dtos.tarefas.EditarTarefaDTO;
@@ -286,7 +287,58 @@ public class TarefaService {
 
         }
     }
+    //ANTIGO
+    /*public void editarEstadoAtividade(Long id, EditarEstadoAtividadeDTO dado){
+        Atividade atividade = atividadeRepository.findById(id).orElseThrow(() -> new AtividadeNotFound(""));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioNotFound(""));
 
 
+        ProgressoAtividades progressoAtividades = progressoAtividadesRepository.findByUsuarioIdAndAtividadesId(usuario.getId(), atividade.getId())
+                .orElseGet( () -> {
+                    ProgressoAtividades novo = new ProgressoAtividades();
+                    novo.setUsuario(usuario);
+                    novo.setAtividades(atividade);
+                    return novo;
+
+                });
+
+        progressoAtividades.setConcluido(dado.concluido());
+
+        progressoAtividadesRepository.save(progressoAtividades);
+    }*/
+    //NOVO
+    public void editarEstadoAtividade(
+            Long id,
+            EditarEstadoAtividadeDTO dado
+    ) {
+
+        Authentication authentication =
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication();
+
+        String email = authentication.getName();
+
+        int alterado = progressoAtividadesRepository.alterarEstado(
+                email,
+                id,
+                dado.concluido()
+        );
+
+        if (alterado == 0) {
+            throw new AtividadeNotFound("Atividade não encontrada");
+        }
+    }
+    public void deletarAtividae(Long id){
+        if(!atividadeRepository.existsById(id)){
+            throw new AtividadeNotFound("Atividade não existe");
+        }
+        atividadeRepository.deleteById(id);
+
+    }
 
 }

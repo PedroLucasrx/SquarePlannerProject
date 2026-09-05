@@ -191,7 +191,8 @@ public class AdService {
         adRepository.deleteById(id);
     }
 
-    public void alterarEstado(Long id,EditarEstadoAdDTO estado){
+    //ANTIGO
+    /*public void alterarEstado(Long id,EditarEstadoAdDTO estado){
         Ad ad = adRepository.findById(id).orElseThrow(() -> new AdNotFound(""));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -213,6 +214,29 @@ public class AdService {
 
 
         progressoAdRepository.save(progresso);
+    }*/
+    //NOVO
+    public void alterarEstado(
+            Long id,
+            EditarEstadoAdDTO estado
+    ) {
+
+        Authentication authentication =
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication();
+
+        String email = authentication.getName();
+
+        int alterado = progressoAdRepository.alterarEstado(
+                email,
+                id,
+                estado.concluido()
+        );
+
+        if (alterado == 0) {
+            throw new AdNotFound("AD não encontrado");
+        }
     }
 
 }

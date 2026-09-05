@@ -1,6 +1,7 @@
 package com.example.squarePlanner.controller;
 
 
+import com.example.squarePlanner.dtos.conteudos.ConteudoStateDTO;
 import com.example.squarePlanner.dtos.provas.CriarProvaDTO;
 import com.example.squarePlanner.dtos.provas.EditarProvaDTO;
 import com.example.squarePlanner.dtos.provas.ProvaResponseDTO;
@@ -72,6 +73,24 @@ public class ProvasController {
         return ResponseEntity.ok(
                 provasService.provaById(id)
         );
+    }
+
+    @PutMapping("/conteudos/{id}/estado")
+    public ResponseEntity<RestResponseDTO> editarEstado(
+            @PathVariable Long id,
+            @RequestBody ConteudoStateDTO estado
+    ){
+        provasService.alterarEstado(id,estado);
+        return ResponseEntity.status(HttpStatus.OK).body(new RestResponseDTO("Estado editado"));
+    }
+
+    @DeleteMapping("conteudos/{id}")
+    public ResponseEntity<RestResponseDTO> deletarConteudo(
+            @PathVariable Long id
+    ){
+        provasService.deletarConteudo(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new RestResponseDTO("Conteudo deletado"));
     }
 
 

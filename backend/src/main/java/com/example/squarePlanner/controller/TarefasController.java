@@ -2,6 +2,7 @@ package com.example.squarePlanner.controller;
 
 
 import com.example.squarePlanner.dtos.RestResponseDTO;
+import com.example.squarePlanner.dtos.atividades.EditarEstadoAtividadeDTO;
 import com.example.squarePlanner.dtos.tarefas.CriarTarefaDTO;
 import com.example.squarePlanner.dtos.tarefas.EditarTarefaDTO;
 import com.example.squarePlanner.dtos.tarefas.TarefaResponseDTO;
@@ -53,5 +54,21 @@ public class TarefasController {
     {
         tarefaService.editarTarefa(id,dados);
         return ResponseEntity.status(HttpStatus.OK).body(new RestResponseDTO("tarefa editada"));
+    }
+
+    @PutMapping("/atividades/{id}/estado")
+    public ResponseEntity<RestResponseDTO> editarEstado(
+            @PathVariable Long id,
+            @RequestBody EditarEstadoAtividadeDTO dado
+    ){
+        tarefaService.editarEstadoAtividade(id,dado);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new RestResponseDTO("estado da atividade editado"));
+    }
+    @DeleteMapping("/atividades/{id}")
+    public ResponseEntity<RestResponseDTO> deletarAtividade(@PathVariable Long id){
+        tarefaService.deletarAtividae(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new RestResponseDTO("atividade deletada"));
+
     }
 }

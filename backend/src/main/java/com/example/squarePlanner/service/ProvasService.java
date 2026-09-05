@@ -1,6 +1,7 @@
 package com.example.squarePlanner.service;
 
 import com.example.squarePlanner.dtos.conteudos.ConteudoResponseDTO;
+import com.example.squarePlanner.dtos.conteudos.ConteudoStateDTO;
 import com.example.squarePlanner.dtos.conteudos.CriarConteudoDTO;
 import com.example.squarePlanner.dtos.conteudos.EditarConteudoDTO;
 import com.example.squarePlanner.dtos.provas.CriarProvaDTO;
@@ -10,10 +11,7 @@ import com.example.squarePlanner.enity.Conteudo;
 import com.example.squarePlanner.enity.ProgressoConteudo;
 import com.example.squarePlanner.enity.Prova;
 import com.example.squarePlanner.enity.Usuario;
-import com.example.squarePlanner.exception.DadosInvalidosException;
-import com.example.squarePlanner.exception.FormatoInvalidoException;
-import com.example.squarePlanner.exception.ProvaJaExisteException;
-import com.example.squarePlanner.exception.ProvaNotFound;
+import com.example.squarePlanner.exception.*;
 import com.example.squarePlanner.repository.ConteudoRepository;
 import com.example.squarePlanner.repository.ProgressoConteudoRepository;
 import com.example.squarePlanner.repository.ProvaRepository;
@@ -368,5 +366,76 @@ public class ProvasService {
                 total,
                 progresso
         );
+    }
+
+    //ANTIGO
+    /*public void alterarEstado(Long id, ConteudoStateDTO estado) {
+
+        Conteudo conteudo = conteudoRepository.findById(id)
+                .orElseThrow(() ->
+                        new ConteudoNotFound("Conteúdo não encontrado")
+                );
+
+        Authentication authentication =
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication();
+
+        String email = authentication.getName();
+
+        Usuario usuario = usuarioRepository
+                .findByEmail(email)
+                .orElseThrow(() ->
+                        new UsuarioNotFound("Usuário não encontrado")
+                );
+
+        ProgressoConteudo progresso =
+                progressoConteudoRepository
+                        .findByUsuarioIdAndConteudoId(
+                                usuario.getId(),
+                                conteudo.getId()
+                        )
+                        .orElseGet(() -> {
+
+                            ProgressoConteudo novo =
+                                    new ProgressoConteudo();
+
+                            novo.setUsuario(usuario);
+                            novo.setConteudo(conteudo);
+
+                            return novo;
+                        });
+
+        progresso.setConcluido(estado.concluido());
+
+        progressoConteudoRepository.save(progresso);
+    }*/
+    //NOVO
+    public void alterarEstado(Long id, ConteudoStateDTO estado) {
+
+        Authentication authentication =
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication();
+
+        String email = authentication.getName();
+
+        int alterado = progressoConteudoRepository.alterarEstado(
+                email,
+                id,
+                estado.concluido()
+        );
+
+        if (alterado == 0) {
+            throw new ConteudoNotFound("Conteúdo não encontrado");
+        }
+    }
+
+    public void deletarConteudo(Long id){
+        if (!conteudoRepository.existsById(id)) {
+            throw new ConteudoNotFound("Conteúdo não encontrado");
+        }
+
+        conteudoRepository.deleteById(id);
     }
 }
