@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ export class HomeComponent {
 
     constructor(
         public authService: AuthService,
+        public themeService: ThemeService,
         private router: Router
     ) {}
 

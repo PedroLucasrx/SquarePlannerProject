@@ -1,4 +1,4 @@
-<div class="pagina-eventos">
+<div class="pagina pagina-eventos">
 
     <!-- ==========================================
          CABEÇALHO
@@ -22,7 +22,7 @@
         <div class="acoes">
 
             <button
-                class="btn btn-voltar"
+                class="btn btn-secondary"
                 (click)="voltarParaHome()"
             >
                 Voltar para Home
@@ -31,7 +31,7 @@
             @if (authService.ehAdmin()) {
 
                 <button
-                    class="btn btn-adicionar"
+                class="btn btn-primary"
                     (click)="abrirFormulario()"
                 >
                     + Adicionar evento
@@ -63,7 +63,7 @@
                 <div class="navegacao-mes">
 
                     <button
-                        class="btn-navegacao"
+                    class="btn btn-icon btn-navegacao"
                         (click)="mesAnterior()"
                     >
                         ‹
@@ -74,7 +74,7 @@
                     </h2>
 
                     <button
-                        class="btn-navegacao"
+                    class="btn btn-icon btn-navegacao"
                         (click)="proximoMes()"
                     >
                         ›
@@ -84,7 +84,7 @@
 
 
                 <button
-                    class="btn-hoje"
+                    class="btn btn-tertiary"
                     (click)="irParaHoje()"
                 >
                     Hoje
@@ -248,14 +248,14 @@
                             <div class="acoes-card">
 
                                 <button
-                                    class="btn-editar"
+                                    class="btn btn-tertiary btn-sm"
                                     (click)="abrirFormularioEdicao(evento)"
                                 >
                                     Editar
                                 </button>
 
                                 <button
-                                    class="btn-deletar"
+                                    class="btn btn-danger btn-sm"
                                     (click)="deletarEvento(evento.id)"
                                 >
                                     Deletar
@@ -310,7 +310,7 @@
                     <h2>Novo evento</h2>
 
                     <button
-                        class="btn-fechar"
+                        class="btn btn-icon"
                         (click)="fecharFormulario()"
                     >
                         ×
@@ -349,7 +349,7 @@
 
 
                 <button
-                    class="btn btn-criar"
+                    class="btn btn-primary btn-block"
                     (click)="criarEvento()"
                 >
                     Criar evento
@@ -377,7 +377,7 @@
                     <h2>Editar evento</h2>
 
                     <button
-                        class="btn-fechar"
+                        class="btn btn-icon"
                         (click)="fecharFormularioEdicao()"
                     >
                         ×
@@ -415,7 +415,7 @@
 
 
                 <button
-                    class="btn btn-criar"
+                    class="btn btn-primary btn-block"
                     (click)="salvarEdicao()"
                 >
                     Salvar alterações

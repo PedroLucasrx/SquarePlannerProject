@@ -1,0 +1,135 @@
+@use './variables' as v;
+
+
+// ================================
+// CAMPO
+// ================================
+
+.campo {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+    margin-bottom: 18px;
+}
+
+.campo label {
+    font-size: 13px;
+    font-weight: 600;
+
+    color: v.$text-primary;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+
+    padding: 11px 13px;
+
+    border: 1px solid v.$border-strong;
+    background: v.$surface;
+    color: v.$text-primary;
+    border-radius: 9px;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    transition:
+        border v.$transition-fast,
+        box-shadow v.$transition-fast;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    border-color: v.$primary;
+
+    box-shadow:
+        0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+
+// ================================
+// FORMULÁRIO
+// ================================
+
+.formulario {
+    width: 100%;
+    max-width: 550px;
+
+    max-height: 90vh;
+    overflow-y: auto;
+
+    background: white;
+
+    border-radius: v.$radius-xl;
+
+    padding: 28px;
+
+    box-shadow: v.$shadow-modal;
+
+    animation: aparecer v.$transition-fast;
+}
+
+.formulario-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.formulario-header h2 {
+    margin: 0;
+}
+
+.campo textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.campo-linha {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.campo-linha input {
+    min-width: 0;
+}
+
+
+// ================================
+// OVERLAY
+// ================================
+
+.overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15, 23, 42, 0.55);
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

@@ -1,4 +1,4 @@
-<div class="pagina-tarefas">
+<div class="pagina pagina-tarefas">
 
     <!-- =========================
          CABEÇALHO
@@ -16,14 +16,14 @@
             </h1>
 
             <p>
-                Organize suas atividades e acompanhe seu progresso.
+                Acompanhe suas atividades e veja quanto já concluiu.
             </p>
         </div>
 
         <div class="acoes">
 
             <button
-                class="btn btn-voltar"
+                class="btn btn-secondary"
                 (click)="voltarParaHome()"
             >
                 Voltar para Home
@@ -32,7 +32,7 @@
             @if (authService.ehAdmin()) {
 
                 <button
-                    class="btn btn-adicionar"
+                class="btn btn-primary"
                     (click)="abrirFormulario()"
                 >
                     + Criar nova tarefa
@@ -60,7 +60,7 @@
                     <h2>Criar nova tarefa</h2>
 
                     <button
-                        class="btn-fechar"
+                        class="btn btn-icon"
                         (click)="fecharFormulario()"
                     >
                         X
@@ -136,7 +136,7 @@
                         track $index
                     ) {
 
-                        <div class="atividade-input">
+                        <div class="campo-linha atividade-input">
 
                             <input
                                 type="text"
@@ -145,7 +145,7 @@
                             >
 
                             <button
-                                class="btn-remover"
+                                class="btn btn-danger btn-sm"
                                 (click)="removerAtividade($index)"
                             >
                                 Remover
@@ -157,7 +157,7 @@
 
 
                     <button
-                        class="btn btn-atividade"
+                        class="btn btn-secondary btn-block"
                         (click)="adicionarAtividade()"
                     >
                         + Adicionar atividade
@@ -167,7 +167,7 @@
 
 
                 <button
-                    class="btn btn-criar"
+                    class="btn btn-primary btn-block"
                     (click)="criarTarefa()"
                 >
                     Criar tarefa
@@ -192,9 +192,6 @@
 
                 <h2>Minhas tarefas</h2>
 
-                <p>
-                    Acompanhe suas atividades e veja quanto já concluiu.
-                </p>
 
             </div>
 
@@ -255,7 +252,7 @@
                     <h2>Editar tarefa</h2>
 
                     <button
-                        class="btn-fechar"
+                        class="btn btn-icon"
                         (click)="fecharFormularioEdicao()"
                     >
                         X
@@ -319,7 +316,7 @@
                         track $index
                     ) {
 
-                        <div class="atividade-input">
+                        <div class="campo-linha atividade-input">
 
                             <input
                                 type="text"
@@ -328,7 +325,7 @@
                             >
 
                             <button
-                                class="btn-remover"
+                                class="btn btn-danger btn-sm"
                                 (click)="removerAtividadeTarefaEditada($index)"
                             >
                                 Remover
@@ -340,7 +337,7 @@
 
 
                     <button
-                        class="btn btn-atividade"
+                        class="btn btn-secondary btn-block"
                         (click)="adicionarAtividadeTarefaEditada()"
                     >
                         + Adicionar atividade
@@ -350,7 +347,7 @@
 
 
                 <button
-                    class="btn btn-criar"
+                    class="btn btn-primary btn-block"
                     (click)="salvarEdicao()"
                 >
                     Salvar alterações
@@ -367,11 +364,11 @@
          LISTA DE TAREFAS
     ========================== -->
 
-    <section class="lista-tarefas">
+    <section class="lista-grade lista-tarefas">
 
         @for (tarefa of getTarefasFiltradas(); track tarefa.id) {
 
-            <article class="card-tarefa">
+            <article class="card card-tarefa">
 
 
                 <!-- HEADER DO CARD -->
@@ -394,14 +391,14 @@
                         <div class="acoes-card">
 
                             <button
-                                class="btn-editar"
+                                class="btn btn-tertiary btn-sm"
                                 (click)="abrirFormularioEdicao(tarefa)"
                             >
                                 Editar
                             </button>
 
                             <button
-                                class="btn-deletar"
+                                class="btn btn-danger btn-sm"
                                 (click)="deletarTarefa(tarefa.id)"
                             >
                                 Deletar
@@ -479,7 +476,7 @@
                         track atividade.id
                     ) {
 
-                        <label class="atividade">
+                        <label class="item-concluivel atividade">
 
                             <input
                                 type="checkbox"

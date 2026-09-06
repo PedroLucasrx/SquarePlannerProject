@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+@use './styles/variables';
+@use './styles/buttons';
+@use './styles/forms';
+@use './styles/auth';
+@use './styles/cards';
+@use './styles/layout';
+@use './styles/utilities';
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}

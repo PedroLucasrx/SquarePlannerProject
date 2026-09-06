@@ -2,6 +2,7 @@
 
     <header class="header">
 
+
         <h1>Square Planner</h1>
 
         @if (authService.logado()) {
@@ -18,28 +19,28 @@
         <main class="menu">
 
             <button
-                class="menu-item"
+                class="btn btn-primary menu-item"
                 routerLink="/provas"
             >
                 Provas
             </button>
 
             <button
-                class="menu-item"
+                class="btn btn-primary menu-item"
                 routerLink="/ads"
             >
                 ADs
             </button>
 
             <button
-                class="menu-item"
+                class="btn btn-primary menu-item"
                 routerLink="/tarefas"
             >
                 Tarefas
             </button>
 
             <button
-                class="menu-item"
+                class="btn btn-primary menu-item"
                 routerLink="/eventos"
             >
                 Eventos
@@ -49,7 +50,7 @@
 
 
         <button
-            class="btn-sair"
+            class="btn btn-danger btn-sair"
             (click)="sair()"
         >
             Sair
@@ -67,7 +68,7 @@
             </p>
 
             <button
-                class="btn-entrar"
+                class="btn btn-primary"
                 routerLink="/login"
             >
                 Entrar
@@ -78,4 +79,10 @@
     }
 
 </div>
-
+<button
+            class="btn btn-secondary btn-theme"
+            type="button"
+            (click)="themeService.toggleTheme()"
+        >
+            {{ themeService.theme() === 'dark' ? 'Tema claro' : 'Tema escuro' }}
+        </button>

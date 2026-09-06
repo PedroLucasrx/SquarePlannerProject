@@ -1,0 +1,172 @@
+@use './variables' as v;
+
+
+// ========================================
+// PÁGINA
+// ========================================
+
+.pagina {
+    min-height: 100vh;
+
+    padding: 40px;
+
+    background: v.$background;
+    color: v.$text-primary;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+
+// ========================================
+// CONTAINER
+// ========================================
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+
+// ========================================
+// CABEÇALHO
+// ========================================
+
+.cabecalho {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.cabecalho h1 {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.cabecalho p,
+.resumo p {
+    margin: 8px 0 0;
+    color: v.$text-secondary;
+}
+
+.acoes {
+    display: flex;
+    gap: 12px;
+}
+
+.pagina .cabecalho,
+.pagina .resumo,
+.pagina .lista-grade {
+    max-width: v.$container-width;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.pagina .cabecalho {
+    margin-bottom: 40px;
+}
+
+.resumo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.resumo h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.titulo-secao {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.filtro-trimestre {
+    padding: 10px 14px;
+    border: 1px solid v.$border;
+    border-radius: v.$radius-md;
+    outline: none;
+    background: v.$surface;
+    color: v.$text-primary;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.filtro-trimestre:focus {
+    border-color: v.$primary;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.lista-grade {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+@media (max-width: 800px) {
+    .pagina {
+        padding: 25px 15px;
+    }
+
+    .cabecalho,
+    .resumo,
+    .titulo-secao {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .acoes {
+        width: 100%;
+    }
+
+    .acoes .btn {
+        flex: 1;
+    }
+
+    .filtro-trimestre {
+        width: 100%;
+    }
+
+    .progresso-total {
+        justify-content: space-between;
+    }
+
+    .lista-grade {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .cabecalho h1 {
+        font-size: 30px;
+    }
+
+    .card-header {
+        flex-direction: column;
+    }
+
+    .acoes-card {
+        width: 100%;
+    }
+
+    .acoes-card .btn {
+        flex: 1;
+    }
+
+    .informacoes {
+        grid-template-columns: 1fr;
+    }
+}

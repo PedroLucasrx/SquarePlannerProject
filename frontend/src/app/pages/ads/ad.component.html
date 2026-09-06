@@ -1,4 +1,4 @@
-<div class="pagina-ads">
+<div class="pagina pagina-ads">
 
     <!-- =========================
          CABEÇALHO
@@ -16,14 +16,14 @@
             </h1>
 
             <p>
-                Organize suas atividades e acompanhe seu progresso.
+                Acompanhe suas ADs e veja quanto já concluiu.
             </p>
         </div>
 
         <div class="acoes">
 
             <button
-                class="btn btn-voltar"
+                class="btn btn-secondary"
                 (click)="voltarParaHome()"
             >
                 Voltar para Home
@@ -32,7 +32,7 @@
             @if (authService.ehAdmin()) {
 
                 <button
-                    class="btn btn-adicionar"
+                class="btn btn-primary"
                     (click)="abrirFormulario()"
                 >
                     + Adicionar atividade
@@ -52,15 +52,12 @@
 
     <section class="resumo">
 
-        <div class="titulo-ads">
+        <div class="titulo-secao titulo-ads">
 
             <div>
 
                 <h2>Minhas atividades</h2>
 
-                <p>
-                    Acompanhe suas ADs e veja quanto já concluiu.
-                </p>
 
             </div>
 
@@ -125,7 +122,7 @@
                     <h2>Nova atividade</h2>
 
                     <button
-                        class="btn-fechar"
+                        class="btn btn-icon"
                         (click)="fecharFormulario()"
                     >
                         X
@@ -213,7 +210,7 @@
 
 
                 <button
-                    class="btn btn-criar"
+                    class="btn btn-primary btn-block"
                     (click)="criarAd()"
                 >
                     Criar atividade
@@ -241,7 +238,7 @@
                     <h2>Editar atividade</h2>
 
                     <button
-                        class="btn-fechar"
+                        class="btn btn-icon"
                         (click)="fecharFormularioEdicao()"
                     >
                         X
@@ -327,7 +324,7 @@
 
 
                 <button
-                    class="btn btn-criar"
+                    class="btn btn-primary btn-block"
                     (click)="salvarEdicao()"
                 >
                     Salvar alterações
@@ -344,14 +341,14 @@
          LISTA DE ADS
     ========================== -->
 
-    <section class="lista-ads">
+    <section class="lista-grade lista-ads">
 
         @for (
             ad of getAdsFiltradas();
             track ad.id
         ) {
 
-            <article class="card-ad">
+            <article class="card card-ad">
 
 
                 <!-- HEADER -->
@@ -377,14 +374,14 @@
                         <div class="acoes-card">
 
                         <button
-                            class="btn-editar"
+                            class="btn btn-tertiary btn-sm"
                             (click)="abrirFormularioEdicao(ad)"
                         >
                             Editar
                         </button>
 
                         <button
-                            class="btn-deletar"
+                            class="btn btn-danger btn-sm"
                             (click)="deletarAd(ad.id)"
                         >
                             Deletar
@@ -448,7 +445,7 @@
 
                 <!-- CONCLUSÃO -->
 
-                <label class="conclusao">
+                <label class="item-concluivel conclusao">
 
                     <input
                         type="checkbox"

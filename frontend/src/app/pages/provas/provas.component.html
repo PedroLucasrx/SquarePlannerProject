@@ -1,4 +1,4 @@
-<div class="pagina-provas">
+<div class="pagina pagina-provas">
 
     <header class="cabecalho">
         <div>
@@ -9,17 +9,19 @@
                 <span class="spinner"></span>
                 }
             </h1>
-            <p>Organize suas provas e acompanhe seu progresso.</p>
+            <p>
+                Veja suas provas e acompanhe seus estudos.
+            </p>
         </div>
 
         <div class="acoes">
-            <button class="btn btn-voltar" (click)="voltarParaHome()">
+            <button class="btn btn-secondary" (click)="voltarParaHome()">
                 Voltar
             </button>
 
 
             @if (authService.ehAdmin()) {
-                <button class="btn btn-adicionar" (click)="abrirFormulario()">
+                <button class="btn btn-primary" (click)="abrirFormulario()">
                     + Adicionar prova
                 </button>
    
@@ -41,7 +43,7 @@
                     <h2>Nova prova</h2>
 
                     <button
-                        class="btn-fechar"
+                        class="btn btn-icon"
                         (click)="fecharFormulario()"
                     >
                         X
@@ -93,7 +95,7 @@
 
                     @for (conteudo of novaProva.conteudos; track $index) {
 
-                        <div class="conteudo-input">
+                        <div class="campo-linha conteudo-input">
 
                             <input
                                 type="text"
@@ -102,7 +104,7 @@
                             >
 
                             <button
-                                class="btn-remover"
+                                class="btn btn-danger btn-sm"
                                 (click)="removerConteudo($index)"
                             >
                                 Remover
@@ -113,7 +115,7 @@
                     }
 
                     <button
-                        class="btn btn-conteudo"
+                        class="btn btn-secondary btn-block"
                         (click)="adicionarConteudo()"
                     >
                         + Adicionar conteúdo
@@ -122,7 +124,7 @@
                 </div>
 
                 <button
-                    class="btn btn-criar"
+                    class="btn btn-primary btn-block"
                     (click)="criarProva()"
                 >
                     Criar prova
@@ -137,14 +139,11 @@
 
     <section class="resumo">
 
-    <div class="titulo-provas">
+    <div class="titulo-secao titulo-provas">
 
         <div>
             <h2>Minhas provas</h2>
 
-            <p>
-                Veja suas provas e acompanhe seus estudos.
-            </p>
         </div>
 
         <select
@@ -199,7 +198,7 @@
                     <h2>Editar prova</h2>
 
                     <button
-                        class="btn-fechar"
+                        class="btn btn-icon"
                         (click)="fecharFormularioEdicao()"
                     >
                         X
@@ -249,7 +248,7 @@
                         track $index
                     ) {
 
-                        <div class="conteudo-input">
+                        <div class="campo-linha conteudo-input">
 
                             <input
                                 type="text"
@@ -258,7 +257,7 @@
                             >
 
                             <button
-                                class="btn-remover"
+                                class="btn btn-danger btn-sm"
                                 (click)="removerConteudoEditado($index)"
                             >
                                 Remover
@@ -269,7 +268,7 @@
                     }
 
                     <button
-                        class="btn btn-conteudo"
+                        class="btn btn-secondary btn-block"
                         (click)="adicionarConteudoProvaEditada()"
                     >
                         + Adicionar conteúdo
@@ -278,7 +277,7 @@
                 </div>
 
                 <button
-                    class="btn btn-criar"
+                    class="btn btn-primary btn-block"
                     (click)="salvarEdicao()"
                 >
                     Salvar alterações
@@ -291,11 +290,11 @@
     }
 
 
-    <section class="lista-provas">
+    <section class="lista-grade lista-provas">
 
         @for (prova of getProvasFiltradas(); track prova.id) {
 
-            <article class="card-prova">
+            <article class="card card-prova">
 
                 <div class="card-header">
 
@@ -314,14 +313,14 @@
                         <div class="acoes-card">
 
                             <button
-                                class="btn-editar"
+                                class="btn btn-tertiary btn-sm"
                                 (click)="abrirFormularioEdicao(prova)"
                             >
                                 Editar
                             </button>
 
                             <button
-                                class="btn-deletar"
+                                class="btn btn-danger btn-sm"
                                 (click)="deletarProva(prova.id)"
                             >
                                 Deletar
@@ -382,7 +381,7 @@
 
                     @for (conteudo of prova.conteudos; track conteudo.id) {
 
-                        <label class="conteudo">
+                        <label class="item-concluivel conteudo">
 
                             <input
                                 type="checkbox"
