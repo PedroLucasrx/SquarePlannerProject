@@ -10,7 +10,7 @@ O frontend não possui acesso direto ao banco. Todas as operações passam pela 
 
 
 ## ERD
-![alt text](<User Progress Measurement-2026-09-08-185945.png>)
+![alt text](<ERD.png>)
 
 ---
 
