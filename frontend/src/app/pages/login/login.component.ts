@@ -38,6 +38,7 @@ export class LoginComponent implements AfterViewInit {
 
         google.accounts.id.initialize({
           client_id: '916862102985-p4iiksq618g3tohfpk9c9pgi028tnkop.apps.googleusercontent.com',
+          use_fedcm_for_button: true,
           callback: (response: any) => {
             this.carregando = true;
             this.mensagemErro = '';
