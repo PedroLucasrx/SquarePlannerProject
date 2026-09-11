@@ -7,6 +7,7 @@
 
 .titulo-ads {
     gap: 10px;
+    color: v.$brand-deep;
 }
 
 .informacoes {
@@ -17,8 +18,9 @@
     margin-bottom: 18px;
     padding: 15px;
     border: 1px solid v.$border;
-    border-radius: 10px;
-    background: v.$surface-subtle;
+    border-radius: 14px;
+    border-left: 5px solid v.$brand-pink;
+    background: color-mix(in srgb, v.$brand-pink 7%, v.$surface);
 }
 
 .proposta span {

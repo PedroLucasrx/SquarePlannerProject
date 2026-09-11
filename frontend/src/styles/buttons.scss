@@ -12,7 +12,8 @@
     gap: 8px;
 
     border: none;
-    border-radius: v.$radius-md;
+    border: 1px solid transparent;
+    border-radius: 999px;
 
     padding: 11px 18px;
 
@@ -21,6 +22,7 @@
 
     cursor: pointer;
 
+    letter-spacing: 0.01em;
     transition:
         transform v.$transition-fast,
         background v.$transition-fast,
@@ -43,15 +45,15 @@
 // ================================
 
 .btn-primary {
-    background: v.$primary;
+    background: v.$brand-deep;
     color: white;
 
     box-shadow:
-        0 4px 12px rgba(79, 70, 229, 0.25);
+        0 7px 18px color-mix(in srgb, v.$brand-deep 28%, transparent);
 }
 
 .btn-primary:hover {
-    background: v.$primary-dark;
+    background: v.$brand-violet;
 }
 
 
@@ -60,15 +62,15 @@
 // ================================
 
 .btn-secondary {
-    background: white;
     background: v.$surface;
-    color: v.$text-primary;
+    color: v.$brand-deep;
 
     border: 1px solid v.$border;
 }
 
 .btn-secondary:hover {
-    background: v.$surface-subtle;
+    border-color: v.$brand-violet;
+    background: v.$primary-light;
 }
 
 
@@ -77,12 +79,12 @@
 // ================================
 
 .btn-tertiary {
-    background: v.$primary-light;
-    color: v.$primary;
+    background: color-mix(in srgb, v.$brand-violet 14%, v.$surface);
+    color: v.$brand-violet;
 }
 
 .btn-tertiary:hover {
-    background: color-mix(in srgb, v.$primary 25%, v.$surface);
+    background: color-mix(in srgb, v.$brand-violet 25%, v.$surface);
 }
 
 
@@ -111,7 +113,7 @@
     padding: 0;
 
     border: none;
-    border-radius: v.$radius-sm;
+    border-radius: 50%;
 
     background: v.$surface-subtle;
     color: v.$text-secondary;

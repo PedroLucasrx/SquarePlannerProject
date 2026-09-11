@@ -3,6 +3,8 @@
     min-height: 100vh;
 }
 
+.pagina-provas .cabecalho h1 { color: var(--brand-deep); }
+
 .titulo-provas {
     gap: 10px;
 }
@@ -17,20 +19,65 @@
     gap: 10px;
 }
 
+.lista-conteudos .item-concluivel { border-left: 3px solid var(--brand-violet); }
+
 .conteudos-form {
     margin-top: 25px;
+    padding: 20px;
+    border: 1px dashed color-mix(in srgb, var(--brand-violet) 45%, var(--border));
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--brand-violet) 6%, var(--surface));
 }
 
 .conteudos-form h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0;
     margin-bottom: 15px;
+    color: var(--brand-deep);
+    font-size: 16px;
+}
+
+.conteudos-form h3::before {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--brand-violet);
+    content: '';
+}
+
+.conteudo-input {
+    align-items: center;
+    padding: 8px;
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 3px 10px color-mix(in srgb, var(--brand-deep) 6%, transparent);
+}
+
+.conteudo-input input {
+    border-color: transparent;
+    background: transparent;
+}
+
+.conteudo-input input:focus {
+    border-color: var(--brand-violet);
+    background: var(--surface);
 }
 
 .conteudo-input .btn {
     flex-shrink: 0;
 }
 
+.conteudos-form > .btn-secondary {
+    margin-top: 4px;
+    border-style: dashed;
+    color: var(--brand-violet);
+}
+
 @media (max-width: 500px) {
     .conteudo-input {
         flex-direction: column;
+        align-items: stretch;
     }
 }

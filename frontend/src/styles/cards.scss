@@ -3,13 +3,13 @@
 .card {
     background: v.$surface;
 
-    border: 1px solid v.$border;
+    border: 1px solid color-mix(in srgb, v.$brand-violet 20%, v.$border);
 
-    border-radius: v.$radius-lg;
+    border-radius: 22px;
 
     padding: 24px;
 
-    box-shadow: v.$shadow-sm;
+    box-shadow: 0 10px 26px color-mix(in srgb, v.$brand-deep 8%, transparent);
 
     transition:
         transform v.$transition-fast,
@@ -17,7 +17,7 @@
 }
 
 .card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px) rotate(-0.25deg);
 
     box-shadow: v.$shadow-md;
 }
@@ -84,8 +84,8 @@
 
     border-radius: 20px;
 
-    background: v.$primary-light;
-    color: v.$primary;
+    background: color-mix(in srgb, v.$brand-violet 16%, v.$surface);
+    color: v.$brand-violet;
 
     font-size: 12px;
     font-weight: 600;
@@ -102,8 +102,8 @@
     gap: 15px;
 
     padding: 15px 20px;
-    border: 1px solid v.$border;
-    border-radius: 12px;
+    border: 1px solid color-mix(in srgb, v.$brand-violet 25%, v.$border);
+    border-radius: 18px;
     background: v.$surface;
 }
 
@@ -113,7 +113,7 @@
 }
 
 .progresso-total strong {
-    color: v.$primary;
+    color: v.$brand-violet;
     font-size: 22px;
 }
 
@@ -129,7 +129,7 @@
 .barra-progresso {
     height: 100%;
     border-radius: inherit;
-    background: v.$primary;
+    background: linear-gradient(90deg, v.$brand-deep, v.$brand-violet, v.$brand-pink);
     transition: width 0.4s ease;
 }
 

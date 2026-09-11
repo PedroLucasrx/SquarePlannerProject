@@ -6,14 +6,21 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: v.$auth-background;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 12% 15%, v.$brand-violet 0 120px, transparent 121px),
+        radial-gradient(circle at 92% 85%, v.$brand-pink 0 180px, transparent 181px),
+        v.$brand-deep;
 }
 
 .auth-card {
     width: 100%;
     max-width: 420px;
     padding: 40px;
-    border-radius: 20px;
+    position: relative;
+    border: 1px solid color-mix(in srgb, white 35%, transparent);
+    border-radius: 28px;
     background: v.$surface;
     box-shadow: v.$shadow-md;
 }
@@ -26,7 +33,7 @@
 
 .auth-card h1 {
     margin: 0 0 8px;
-    color: v.$primary;
+    color: v.$brand-deep;
     font-size: 30px;
 }
 

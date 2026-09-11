@@ -11,3 +11,15 @@
 *::after {
     box-sizing: border-box;
 }
+
+html,
+body {
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    background: var(--background);
+    color: var(--text-primary);
+    font-family: Inter, Avenir, "Segoe UI", Arial, sans-serif;
+}

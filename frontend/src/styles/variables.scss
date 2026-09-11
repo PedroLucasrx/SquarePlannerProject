@@ -1,15 +1,19 @@
 :root {
     color-scheme: light;
 
-    --primary: #4f46e5;
-    --primary-dark: #4338ca;
+    --primary: hsl(243, 100%, 50%);
+    --primary-dark: #1000c5;
     --primary-light: #eef2ff;
+    --brand-deep: #182b98;
+    --brand-violet: #7c45f4;
+    --brand-pink: #d847d7;
+    --brand-orange: #f59a18;
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --text-muted: #9ca3af;
     --border: #e5e7eb;
     --border-strong: #d1d5db;
-    --background: #f5f7fb;
+    --background: #f7f6ff;
     --surface: #ffffff;
     --surface-subtle: #f9fafb;
     --danger: #dc2626;
@@ -28,6 +32,10 @@
     --primary: #818cf8;
     --primary-dark: #a5b4fc;
     --primary-light: #312e81;
+    --brand-deep: #aebcff;
+    --brand-violet: #a88cff;
+    --brand-pink: #f38cea;
+    --brand-orange: #ffc65a;
     --text-primary: #f9fafb;
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
@@ -49,6 +57,10 @@
 $primary: var(--primary);
 $primary-dark: var(--primary-dark);
 $primary-light: var(--primary-light);
+$brand-deep: var(--brand-deep);
+$brand-violet: var(--brand-violet);
+$brand-pink: var(--brand-pink);
+$brand-orange: var(--brand-orange);
 $text-primary: var(--text-primary);
 $text-secondary: var(--text-secondary);
 $text-muted: var(--text-muted);
