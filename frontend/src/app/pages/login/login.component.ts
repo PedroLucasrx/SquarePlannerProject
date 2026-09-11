@@ -48,6 +48,7 @@ export class LoginComponent implements AfterViewInit {
               next: () => {
 
               console.log('Login com Google realizado!');
+           
 
               this.carregando = false;
 
@@ -69,12 +70,14 @@ export class LoginComponent implements AfterViewInit {
           }
         });
 
+
+        const largura = window.innerWidth <= 480 ? 300 : 350;
         google.accounts.id.renderButton(
           this.googleButton.nativeElement,
           {
             theme: 'outline',
             size: 'large',
-            width: 350,
+            width: largura,
             text: 'continue_with'
           }
         );

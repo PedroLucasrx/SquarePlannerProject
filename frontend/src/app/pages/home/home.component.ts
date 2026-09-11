@@ -17,7 +17,9 @@ export class HomeComponent {
         public authService: AuthService,
         public themeService: ThemeService,
         private router: Router
-    ) {}
+    ) {
+        
+    }
 
     sair(): void {
 

@@ -134,3 +134,24 @@
 .btn-block {
     width: 100%;
 }
+
+
+// ================================
+// GOOGLE
+// ================================
+.google-button {
+  width: 100%;
+  margin-top: 15px;
+  max-width: 350px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+
+}
+
+@media (max-width: 480px) {
+  .google-button {
+    width: 100%;
+    max-width: 100%;
+  }
+}
