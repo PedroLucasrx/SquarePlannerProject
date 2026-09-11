@@ -2,6 +2,7 @@ package com.example.squarePlanner.controller;
 
 import com.example.squarePlanner.dtos.RestResponseDTO;
 import com.example.squarePlanner.dtos.usuario.CriarUsuarioDTO;
+import com.example.squarePlanner.dtos.usuario.GoogleLoginDTO;
 import com.example.squarePlanner.dtos.usuario.LoginDTO;
 import com.example.squarePlanner.dtos.usuario.LoginResponseDTO;
 import com.example.squarePlanner.service.AuthService;
@@ -40,5 +41,17 @@ public class AuthController {
 
         return ResponseEntity.ok(
                 new LoginResponseDTO(token));
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<LoginResponseDTO> loginGoogle(
+            @RequestBody GoogleLoginDTO dados
+    ) {
+
+        String token = authService.loginGoogle(dados);
+
+        return ResponseEntity.ok(
+                new LoginResponseDTO(token)
+        );
     }
 }

@@ -85,6 +85,29 @@ export class AuthService {
     );
 
   }
+  loginGoogle(credential: string): Observable<LoginResponse> {
+
+    return this.http.post<LoginResponse>(
+      `${this.apiUrl}/google`,
+      { credential }
+    ).pipe(
+
+      tap((resposta) => {
+
+        this.salvarToken(resposta.token);
+
+        this.logadoSignal.set(true);
+
+        this.usuarioSignal.set(
+          this.carregarUsuario()
+        );
+
+      })
+
+    );
+
+  }
+
 
   salvarToken(token: string): void {
 

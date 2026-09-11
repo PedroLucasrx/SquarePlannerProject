@@ -10,6 +10,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.example.squarePlanner.dtos.usuario.GoogleLoginDTO;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 
 @Service
 public class AuthService {
@@ -18,17 +20,20 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final GoogleTokenService googleTokenService;
 
     public AuthService(
             UsuarioRepository usuarioRepository,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
-            JwtService jwtService
+            JwtService jwtService,
+            GoogleTokenService googleTokenService
     ) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.googleTokenService = googleTokenService;
     }
 
     public void criarUsuario(CriarUsuarioDTO dados) {
@@ -63,6 +68,47 @@ public class AuthService {
                         .orElseThrow(() ->
                                 new UsuarioNotFound("")
                         );
+
+        return jwtService.gerarToken(
+                usuario.getEmail(),
+                usuario.getNome(),
+                usuario.getRole()
+        );
+    }
+
+    public String loginGoogle(GoogleLoginDTO dados) {
+
+        GoogleIdToken.Payload payload =
+                googleTokenService.validarToken(dados.credential());
+
+        String googleId = payload.getSubject();
+        String email = payload.getEmail();
+        String nome = (String) payload.get("name");
+
+        Usuario usuario = usuarioRepository
+                .findByGoogleId(googleId)
+                .orElse(null);
+
+        if (usuario == null) {
+
+            usuario = usuarioRepository
+                    .findByEmail(email)
+                    .orElse(null);
+
+            if (usuario == null) {
+
+                usuario = new Usuario(
+                        nome,
+                        email,
+                        passwordEncoder.encode(java.util.UUID.randomUUID().toString())
+                );
+
+            }
+
+            usuario.setGoogleId(googleId);
+
+            usuarioRepository.save(usuario);
+        }
 
         return jwtService.gerarToken(
                 usuario.getEmail(),
