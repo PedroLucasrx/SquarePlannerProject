@@ -15,17 +15,36 @@ public class Ad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String materia;
+
     private LocalDate data;
+
     private int trimestre;
+
     private String proposta;
 
-    protected Ad(){}
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "turma_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_ad_turma")
+    )
+    private Turma turma;
 
-    public Ad(String materia, LocalDate data, int trimestre,String proposta){
+    protected Ad() {}
+
+    public Ad(
+            String materia,
+            LocalDate data,
+            int trimestre,
+            String proposta,
+            Turma turma
+    ) {
         this.materia = materia;
         this.data = data;
         this.trimestre = trimestre;
         this.proposta = proposta;
+        this.turma = turma;
     }
 }

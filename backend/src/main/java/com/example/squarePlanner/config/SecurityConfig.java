@@ -87,6 +87,12 @@ public class SecurityConfig {
                                 HttpMethod.GET,
                                 "/eventos/**"
                         ).authenticated()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/turmas/**"
+                        ).authenticated()
+
+
                         // =========================
                         // ESTADO
                         // =========================

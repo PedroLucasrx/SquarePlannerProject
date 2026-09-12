@@ -45,7 +45,8 @@ public class TarefaService {
         Tarefa tarefa = new Tarefa(
                 dados.materia(),
                 dados.data(),
-                dados.trimestre()
+                dados.trimestre(),
+                dados.turma()
         );
         if(dados.materia() == null || dados.materia().isBlank()){
             throw  new DadosInvalidosException("Nome da materia é necessario");
@@ -138,18 +139,36 @@ public class TarefaService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new UsuarioNotFound("Usuário não encontrado"));
+                .orElseThrow(() ->
+                    new UsuarioNotFound("Usuário não encontrado")
+                );
 
         Long usuarioId = usuario.getId();
 
-        //Busca todas as tarefas de uma vez
-        List<Tarefa> tarefas = tarefasRepository.findAll();
+        if (usuario.getTurma() == null) {
+            throw new DadosInvalidosException(
+                    "Usuário não possui uma turma definida"
+            );
+        }
 
-        //Busca todas as atividades de uma vevz
-        List<Atividade> todasAtividades = atividadeRepository.findAll();
+        Long turmaId = usuario.getTurma().getId();
 
-        //Busca todos os progressos atividades de uma vez
-        List<ProgressoAtividades> progressos = progressoAtividadesRepository.findByUsuarioId(usuarioId);
+        // Busca somente as tarefas da turma do usuário
+        List<Tarefa> tarefas =
+                tarefasRepository.findByTurmaIdOrderByData(turmaId);
+        // Pega somente os IDs das tarefas encontradas
+        List<Long> tarefaIds = tarefas.stream()
+                .map(Tarefa::getId)
+                .toList();
+
+        // Busca somente as atividades dessas tarefas
+        List<Atividade> todasAtividades = tarefaIds.isEmpty()
+                ? List.of()
+                : atividadeRepository.findByTarefaIdIn(tarefaIds);
+
+        // Busca todos os progressos do usuário de uma vez
+        List<ProgressoAtividades> progressos =
+                progressoAtividadesRepository.findByUsuarioId(usuarioId);
 
         // atividadeId -> concluido
         var progressoPorAtividade = progressos.stream()
@@ -159,49 +178,56 @@ public class TarefaService {
                 ));
 
         // tarefaId -> lista de atividades
-        var atividadePorProva = todasAtividades.stream()
+        var atividadesPorTarefa = todasAtividades.stream()
                 .collect(Collectors.groupingBy(
                         Atividade::getTarefaId
                 ));
 
-        return tarefas.stream().map( tarefa -> {
-            List<AtividadesResponseDTO> atividades = atividadePorProva.getOrDefault(tarefa.getId(), List.of())
-                    .stream().map(
-                            atividade -> {
-                                boolean concluido = progressoPorAtividade.getOrDefault(
-                                        atividade.getId(),
-                                        false
-                                );
+        return tarefas.stream()
+                .map(tarefa -> {
 
-                                return new AtividadesResponseDTO(
-                                        atividade.getId(),
-                                        atividade.getNome(),
-                                        concluido
-                                );
-                            }
-                    ).toList();
-
-            int total = atividades.size();
-
-            int concluidas = (int) atividades
+                    List<AtividadesResponseDTO> atividades =
+                            atividadesPorTarefa
+                                    .getOrDefault(tarefa.getId(), List.of())
                                     .stream()
-                                    .filter(AtividadesResponseDTO::concluido)
-                                    .count();
-            double progresso = total == 0
-                    ? 0
-                    : (double) concluidas / total * 100;
+                                    .map(atividade -> {
 
-            return  new TarefaResponseDTO(
-                    tarefa.getId(),
-                    tarefa.getMateria(),
-                    tarefa.getData(),
-                    tarefa.getTrimestre(),
-                    atividades,
-                    concluidas,
-                    total,
-                    progresso
-            );
-        }).toList();
+                                        boolean concluido =
+                                                progressoPorAtividade.getOrDefault(
+                                                        atividade.getId(),
+                                                        false
+                                                );
+
+                                        return new AtividadesResponseDTO(
+                                                atividade.getId(),
+                                                atividade.getNome(),
+                                                concluido
+                                        );
+                                    })
+                                    .toList();
+
+                    int total = atividades.size();
+
+                    int concluidas = (int) atividades.stream()
+                            .filter(AtividadesResponseDTO::concluido)
+                            .count();
+
+                    double progresso = total == 0
+                            ? 0
+                            : (double) concluidas / total * 100;
+
+                    return new TarefaResponseDTO(
+                            tarefa.getId(),
+                            tarefa.getMateria(),
+                            tarefa.getData(),
+                            tarefa.getTrimestre(),
+                            atividades,
+                            concluidas,
+                            total,
+                            progresso
+                    );
+                })
+                .toList();
     }
 
     public TarefaResponseDTO lerTarefa(Long id){//todo passar o progressoAtividades para ca

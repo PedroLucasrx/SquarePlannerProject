@@ -2,9 +2,11 @@ package com.example.squarePlanner.service;
 
 import com.example.squarePlanner.dtos.usuario.CriarUsuarioDTO;
 import com.example.squarePlanner.dtos.usuario.LoginDTO;
+import com.example.squarePlanner.enity.Turma;
 import com.example.squarePlanner.enity.Usuario;
 import com.example.squarePlanner.exception.JaExisteException;
 import com.example.squarePlanner.exception.UsuarioNotFound;
+import com.example.squarePlanner.repository.TurmaRepository;
 import com.example.squarePlanner.repository.UsuarioRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,19 +23,23 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final GoogleTokenService googleTokenService;
+    private final TurmaRepository turmaRepository;
+
 
     public AuthService(
             UsuarioRepository usuarioRepository,
             PasswordEncoder passwordEncoder,
             AuthenticationManager authenticationManager,
             JwtService jwtService,
-            GoogleTokenService googleTokenService
+            GoogleTokenService googleTokenService,
+            TurmaRepository turmaRepository
     ) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.googleTokenService = googleTokenService;
+        this.turmaRepository = turmaRepository;
     }
 
     public void criarUsuario(CriarUsuarioDTO dados) {
@@ -41,6 +47,8 @@ public class AuthService {
         if (usuarioRepository.existsByEmail(dados.email())) {
             throw new JaExisteException("Este email já está cadastrado");
         }
+        Turma turma = turmaRepository.findById(dados.turmaId())
+                .orElseThrow(() -> new RuntimeException("Turma não encontrada"));
 
         String senhaCriptografada =
                 passwordEncoder.encode(dados.senha());
@@ -51,6 +59,7 @@ public class AuthService {
                 senhaCriptografada
         );
 
+        usuario.setTurma(turma);
         usuarioRepository.save(usuario);
     }
 

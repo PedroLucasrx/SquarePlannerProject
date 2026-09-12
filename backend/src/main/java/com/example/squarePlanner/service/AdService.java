@@ -40,7 +40,8 @@ public class AdService {
             dados.materia(),
             dados.data(),
             dados.trimestre(),
-            dados.proposta()
+            dados.proposta(),
+            dados.turma()
         );
         if(dados.trimestre() <= 0 || dados.trimestre() >3){
             throw new FormatoInvalidoException("trimestre invalido");
@@ -133,35 +134,47 @@ public class AdService {
                 .orElseThrow(() -> new UsuarioNotFound("Usuario não encontrado"));
         Long usuarioId = usuario.getId();
 
-        // Busca todas as ADs de uma vez
-        List<Ad> ads = adRepository.findAll();
+        if (usuario.getTurma() == null) {
+            throw new DadosInvalidosException(
+                    "Usuário não possui uma turma definida"
+            );
+        }
 
-        // Busca todos os progressos de uma vez
+        Long turmaId = usuario.getTurma().getId();
+
+        // Busca somente as ADs da turma do usuário
+        List<Ad> ads = adRepository.findByTurmaIdOrderByData(turmaId);
+
+        // Busca todos os progressos do usuário de uma vez
         List<ProgressoAd> progressos = progressoAdRepository.findByUsuarioId(usuarioId);
 
-        var progressoPorAd = progressos.stream().collect(Collectors.toMap(
-                progresso -> progresso.getAd().getId(),
-                ProgressoAd::isConcluido
-        ));
+        var progressoPorAd = progressos.stream()
+                .collect(Collectors.toMap(
+                        progresso -> progresso.getAd().getId(),
+                        ProgressoAd::isConcluido
+                ));
 
-        List<AdResponseDTO> adsResponse = ads.stream().map(
-                ad -> {
-                    boolean concuido = progressoPorAd.getOrDefault(
-                            ad.getId(),
-                            false
-                    );
-                    return  new AdResponseDTO(
+        List<AdResponseDTO> adsResponse = ads.stream()
+                .map(ad -> {
+
+                    boolean concluido =
+                            progressoPorAd.getOrDefault(
+                                    ad.getId(),
+                                    false
+                            );
+
+                    return new AdResponseDTO(
                             ad.getId(),
                             ad.getMateria(),
                             ad.getData(),
                             ad.getTrimestre(),
                             ad.getProposta(),
-                            concuido
+                            concluido
                     );
-                }
-        ).toList();
+                })
+                .toList();
 
-        int totalAds = ads.size();
+        int totalAds = adsResponse.size();
 
         int adsConcluidas = (int) adsResponse.stream()
                 .filter(AdResponseDTO::concluido)
@@ -171,16 +184,12 @@ public class AdService {
                 ? 0
                 : (double) adsConcluidas / totalAds * 100;
 
-
-
         return new AdsResponseDTO(
                 adsResponse,
                 adsConcluidas,
                 totalAds,
                 progresso
         );
-
-
     }
 
     public void deletarAd(Long id){

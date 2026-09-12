@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS provas (
 CREATE TABLE IF NOT EXISTS conteudos (
     id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    prova_id BIGIN NOT NULL,
+    prova_id BIGINT NOT NULL,
 
    CONSTRAINT fk_conteudo_prova
     FOREIGN KEY (prova_id)
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS ad (
     materia VARCHAR(255) NOT NULL,
     data DATE NOT NULL,
     trimestre INTEGER NOT NULL,
-    proposta VARCHAR(255) NOT NULL
+    proposta VARCHAR(255) NOT NULL,
 
     CONSTRAINT chk_ad_trimestre
         CHECK (trimestre BETWEEN 1 AND 3)
@@ -65,8 +65,14 @@ CREATE TABLE IF NOT EXISTS usuarios (
     id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
+    google_id VARCHAR(255),
     senha VARCHAR(255) NOT NULL,
-    role VARCHAR(255) NOT NULL
+    turma_id BIGINT,
+    role VARCHAR(255) NOT NULL,
+
+    CONSTRAINT fk_usuario_turma
+    FOREIGN KEY (turma_id)
+    REFERENCES turma(id)
 );
 
 CREATE TABLE IF NOT EXISTS progresso_conteudo (
@@ -133,4 +139,25 @@ CREATE TABLE IF NOT EXISTS progresso_atividades (
 
     CONSTRAINT uk_usuario_atividades
     UNIQUE (usuario_id, atividades_id)
+);
+
+CREATE TABLE IF NOT EXISTS ano_escolar (
+    id BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    ordem INTEGER NOT NULL UNIQUE,
+    CONSTRAINT chk_ano_escolar_ordem
+    CHECK (ordem BETWEEN 1 AND 3)
+    );
+
+CREATE TABLE IF NOT EXISTS turma (
+    id BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    ano_escolar_id BIGINT NOT NULL,
+
+    CONSTRAINT fk_turma_ano_escolar
+    FOREIGN KEY (ano_escolar_id)
+    REFERENCES ano_escolar(id),
+
+    CONSTRAINT uk_turma_nome_ano
+    UNIQUE (nome, ano_escolar_id)
     );

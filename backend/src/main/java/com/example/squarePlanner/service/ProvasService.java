@@ -66,7 +66,8 @@ public class ProvasService {
         Prova prova = new Prova(
                 dados.materia(),
                 dados.data(),
-                dados.trimestre()
+                dados.trimestre(),
+                dados.anoEscolar()
         );
 
         provaRepository.save(prova);
@@ -102,7 +103,8 @@ public class ProvasService {
             Prova novaProva = new Prova(
                     prova.materia(),
                     prova.data(),
-                    prova.trimestre()
+                    prova.trimestre(),
+                    prova.anoEscolar()
             );
             provaRepository.save(novaProva);
 
@@ -252,16 +254,36 @@ public class ProvasService {
         Usuario usuario = usuarioRepository
                 .findByEmail(email)
                 .orElseThrow(() ->
-                        new RuntimeException("Usuário não encontrado")
+                        new UsuarioNotFound("Usuário não encontrado")
                 );
 
         Long usuarioId = usuario.getId();
 
-        // Busca todas as provas de uma vez
-        List<Prova> provas = provaRepository.findAll();
+        if (usuario.getTurma() == null) {
+            throw new DadosInvalidosException(
+                    "Usuário não possui uma turma definida"
+            );
+        }
 
-        // Busca todos os conteúdos de uma vez
-        List<Conteudo> todosConteudos = conteudoRepository.findAll();
+        Long anoEscolarId =
+                usuario.getTurma()
+                        .getAnoEscolar()
+                        .getId();
+
+        // Busca somente as provas do ano escolar do usuário
+        List<Prova> provas =
+                provaRepository.findByAnoEscolarIdOrderByData(anoEscolarId);
+
+        // Pega somente os IDs das provas encontradas
+        List<Long> provaIds = provas.stream()
+                .map(Prova::getId)
+                .toList();
+
+        // Busca somente os conteúdos dessas provas
+        List<Conteudo> todosConteudos =
+                provaIds.isEmpty()
+                        ? List.of()
+                        : conteudoRepository.findByProvaIdIn(provaIds);
 
         // Busca todos os progressos desse usuário de uma vez
         List<ProgressoConteudo> progressos =

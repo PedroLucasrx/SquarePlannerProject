@@ -28,6 +28,13 @@ public class Usuario {
     @Column(nullable = false)
     private String role;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "turma_id",
+            foreignKey = @ForeignKey(name = "fk_usuario_turma")
+    )
+    private Turma turma;
+
     public Usuario() {
     }
 
