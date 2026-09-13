@@ -60,12 +60,24 @@ public class SecurityConfig {
                         // AUTENTICAÇÃO
                         // =========================
 
-                        .requestMatchers("/auth/**", "/health").permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/auth/me"
+                        ).authenticated()
 
                         .requestMatchers(
                                 HttpMethod.PUT,
                                 "/auth/turma"
                         ).authenticated()
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/auth/login",
+                                "/auth/cadastro",
+                                "/auth/google"
+                        ).permitAll()
+
+                        .requestMatchers("/health").permitAll()
                        
 
 

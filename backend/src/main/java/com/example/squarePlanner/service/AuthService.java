@@ -105,26 +105,14 @@ public class AuthService {
                     .orElse(null);
         }
 
-        // Usuário Google novo
+        // Usuário Google novo: entra autenticado e escolhe a turma na Home.
         if (usuario == null) {
-
-            // Ainda não escolheu a turma
-            if (dados.turmaId() == null) {
-                return new LoginGoogleResponseDTO(
-                        null,
-                        true
-                );
-            }
-
-            Turma turma = turmaRepository.findById(dados.turmaId())
-                    .orElseThrow(() ->
-                            new DadosInvalidosException("Turma não encontrada"));
-
-            usuario = new Usuario();
-            usuario.setNome(nome);
-            usuario.setEmail(email);
+            usuario = new Usuario(
+                    nome,
+                    email,
+                    passwordEncoder.encode(java.util.UUID.randomUUID().toString())
+            );
             usuario.setGoogleId(googleId);
-            usuario.setTurma(turma);
 
             usuarioRepository.save(usuario);
         }
@@ -192,7 +180,6 @@ public class AuthService {
 
 
 }
-
 
 
 

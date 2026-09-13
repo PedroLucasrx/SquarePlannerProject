@@ -40,33 +40,26 @@ export class LoginComponent implements AfterViewInit {
           client_id: '916862102985-p4iiksq618g3tohfpk9c9pgi028tnkop.apps.googleusercontent.com',
           use_fedcm_for_button: true,
           callback: (response: any) => {
+
+
             this.carregando = true;
             this.mensagemErro = '';
 
             this.authService.loginGoogle(response.credential).subscribe({
-
-              next: () => {
-
-              console.log('Login com Google realizado!');
-           
-
-              this.carregando = false;
-
-              this.router.navigate(['/']);
-
-              },
-
-              error: (erro) => {
-
-                console.error('Erro ao fazer login com Google:', erro);
-
+              next: (resposta) => {
                 this.carregando = false;
 
-                this.mensagemErro = 'Não foi possível entrar com o Google. Tente novamente.';
+              this.router.navigate(['/']);
+            },
+            error: (erro) => {
+              console.error('Erro ao fazer login com Google:', erro);
+              this.carregando = false;
+              this.mensagemErro =
+              'Não foi possível entrar com o Google. Tente novamente.';
+            }
+        });
 
-              }
 
-            });
           }
         });
 

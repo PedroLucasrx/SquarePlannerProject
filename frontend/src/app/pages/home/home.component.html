@@ -79,10 +79,79 @@
     }
 
 </div>
-<button
-            class="btn btn-secondary btn-theme"
-            type="button"
-            (click)="themeService.toggleTheme()"
-        >
-            {{ themeService.theme() === 'dark' ? 'Tema claro' : 'Tema escuro' }}
-        </button>
+@if (mostrarPopupTurma) {
+
+    <div class="popup-overlay">
+
+        <div class="popup-turma">
+
+            <h2>Selecione sua turma</h2>
+
+            <p>
+                Para continuar usando o Square Planner,
+                selecione seu ano escolar e sua turma.
+            </p>
+
+            <div class="campo">
+
+                <label>Ano escolar</label>
+
+                <select [(ngModel)]="anoSelecionado">
+
+                    <option [ngValue]="null">
+                        Selecione seu ano
+                    </option>
+
+                    @for (ano of anosEscolares; track ano.id) {
+
+                        <option [ngValue]="ano.id">
+                            {{ ano.nome }}
+                        </option>
+
+                    }
+
+                </select>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label>Turma</label>
+
+                <select [(ngModel)]="turmaSelecionada">
+
+                    <option [ngValue]="null">
+                        Selecione sua turma
+                    </option>
+
+                    @for (turma of turmasFiltradas; track turma.id) {
+
+                        <option [ngValue]="turma.id">
+                            {{ turma.nome }}
+                        </option>
+
+                    }
+
+                </select>
+
+            </div>
+
+
+            <button
+                class="btn btn-primary btn-block"
+                [disabled]="turmaSelecionada === null"
+                (click)="salvarTurma()"
+            >
+                Continuar
+            </button>
+
+        </div>
+
+    </div>
+
+}
+
+<button class="btn btn-secondary btn-theme" type="button" (click)="themeService.toggleTheme()">
+    {{ themeService.theme() === 'dark' ? 'Tema claro' : 'Tema escuro' }}
+</button>

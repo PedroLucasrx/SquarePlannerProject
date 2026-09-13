@@ -2,24 +2,36 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  ViewChild
+  ViewChild,
+  OnInit
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+
+interface Turma {
+  id: number;
+  nome: string;
+  anoEscolar: {
+    id: number;
+    nome: string;
+    ordem: number;
+  };
+}
 
 declare const google: any;
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.scss'
 })
-export class CadastroComponent implements AfterViewInit {
+export class CadastroComponent implements AfterViewInit, OnInit {
 
   @ViewChild('googleButton') googleButton!: ElementRef;
 
@@ -27,6 +39,10 @@ export class CadastroComponent implements AfterViewInit {
   email = '';
   senha = '';
   confirmarSenha = '';
+
+  turmas: Turma[] = [];
+  anoSelecionado: number | null = null;
+  turmaSelecionada: number | null = null;
 
   mensagemErro = '';
   mensagemSucesso = '';
@@ -72,11 +88,16 @@ export class CadastroComponent implements AfterViewInit {
 
       return;
     }
+    if (this.turmaSelecionada === null) {
+      this.mensagemErro = 'Selecione sua turma.';
+      return;
+    }
 
     const dados = {
       nome: this.nome,
       email: this.email,
-      senha: this.senha
+      senha: this.senha,
+      turmaId: this.turmaSelecionada
     };
 
     // Começa o carregamento
@@ -99,6 +120,8 @@ export class CadastroComponent implements AfterViewInit {
         this.email = '';
         this.senha = '';
         this.confirmarSenha = '';
+        this.anoSelecionado = null;
+        this.turmaSelecionada = null;
 
         // Depois de 1 segundo vai para o login
         setTimeout(() => {
@@ -132,6 +155,10 @@ export class CadastroComponent implements AfterViewInit {
 
     });
 
+  }
+
+  ngOnInit(): void {
+    this.carregarTurmas();
   }
 
   ngAfterViewInit(): void {
@@ -196,6 +223,39 @@ export class CadastroComponent implements AfterViewInit {
 
   voltarParaLogin(): void {
     this.router.navigate(['/login']);
+  }
+
+  private carregarTurmas(): void {
+    this.http.get<Turma[]>('https://squareplannerproject.onrender.com/turmas')
+      .subscribe({
+        next: (turmas) => {
+          this.turmas = turmas;
+        },
+        error: (erro) => {
+          console.error('Erro ao carregar turmas:', erro);
+          this.mensagemErro =
+          'Não foi possível carregar as turmas. Tente novamente.';
+      }
+    });
+  }
+
+  get turmasFiltradas(): Turma[] {
+    if (this.anoSelecionado === null) {
+      return [];
+    }
+
+    return this.turmas.filter(
+      turma => turma.anoEscolar.id === this.anoSelecionado
+    );
+  }
+
+  get anosEscolares(): Turma['anoEscolar'][] {
+    const anos = this.turmas.map(turma => turma.anoEscolar);
+
+    return anos.filter(
+      (ano, index, self) =>
+        index === self.findIndex(outro => outro.id === ano.id)
+    );
   }
 
 }

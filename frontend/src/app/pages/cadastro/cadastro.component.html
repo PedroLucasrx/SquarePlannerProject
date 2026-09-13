@@ -71,6 +71,50 @@
         </div>
 
 
+        <div class="campo">
+
+    <label>
+        Ano escolar
+    </label>
+
+    <select [(ngModel)]="anoSelecionado">
+        <option [ngValue]="null">
+            Selecione seu ano
+        </option>
+
+       <option *ngFor="let ano of anosEscolares" [ngValue]="ano.id">
+            {{ ano.nome }}
+        </option>
+    </select>
+
+</div>
+
+
+<div class="campo">
+
+    <label>
+        Turma
+    </label>
+
+    <select
+        [(ngModel)]="turmaSelecionada"
+        [disabled]="anoSelecionado === null"
+    >
+        <option [ngValue]="null">
+            Selecione sua turma
+        </option>
+
+        <option
+            *ngFor="let turma of turmasFiltradas"
+            [ngValue]="turma.id"
+        >
+            {{ turma.nome }}
+        </option>
+    </select>
+
+</div>
+
+
         @if (mensagemErro) {
 
             <p class="mensagem erro">

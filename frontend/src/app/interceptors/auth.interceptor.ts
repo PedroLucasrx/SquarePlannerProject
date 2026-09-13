@@ -15,7 +15,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   if (
     !token ||
     req.url.includes('/auth/login') ||
-    req.url.includes('/auth/cadastro')
+    req.url.includes('/auth/cadastro') ||
+    req.url.includes('/auth/google')
   ) {
     return next(req);
   }

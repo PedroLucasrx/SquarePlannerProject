@@ -5,17 +5,31 @@ import { Observable, tap } from 'rxjs';
 interface LoginResponse {
   token: string;
 }
+interface LoginGoogleResponse {
+  token: string | null;
+  precisaCadastro: boolean;
+}
 
 interface LoginRequest {
   email: string;
   senha: string;
 }
 
+interface UsuarioMeResponse {
+  nome: string;
+  email: string;
+  role: string;
+  turmaId: number | null;
+}
+
 interface UsuarioLogado {
   nome: string;
   email: string;
   role: string;
+  turmaId: number | null;
 }
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +67,8 @@ export class AuthService {
       return {
         email: dados.sub,
         nome: dados.nome,
-        role: dados.role
+        role: dados.role,
+        turmaId: null
       };
 
     } catch {
@@ -85,15 +100,20 @@ export class AuthService {
     );
 
   }
-  loginGoogle(credential: string): Observable<LoginResponse> {
+  loginGoogle(
+  credential: string
+): Observable<LoginGoogleResponse> {
 
-    return this.http.post<LoginResponse>(
-      `${this.apiUrl}/google`,
-      { credential }
-    ).pipe(
+  return this.http.post<LoginGoogleResponse>(
+    `${this.apiUrl}/google`,
+    {
+      credential
+    }
+  ).pipe(
 
-      tap((resposta) => {
+    tap((resposta) => {
 
+      if (resposta.token) {
         this.salvarToken(resposta.token);
 
         this.logadoSignal.set(true);
@@ -101,12 +121,12 @@ export class AuthService {
         this.usuarioSignal.set(
           this.carregarUsuario()
         );
+      }
 
-      })
+    })
 
-    );
-
-  }
+  );
+}
 
 
   salvarToken(token: string): void {
@@ -116,8 +136,20 @@ export class AuthService {
   }
 
   pegarToken(): string | null {
-
     return localStorage.getItem('token');
+  }
+
+  carregarDadosUsuario(): Observable<UsuarioMeResponse> {
+
+    return this.http.get<UsuarioMeResponse>(
+      `${this.apiUrl}/me`
+    ).pipe(
+
+      tap((dados) => {
+        this.usuarioSignal.set(dados);
+      })
+
+    );
 
   }
 

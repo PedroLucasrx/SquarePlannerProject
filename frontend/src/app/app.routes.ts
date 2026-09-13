@@ -11,7 +11,8 @@ import { CadastroComponent } from './pages/cadastro/cadastro.component';
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeComponent,
+    canActivate: [authGuard]
     
   },
   {
