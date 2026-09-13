@@ -4,6 +4,7 @@ import com.example.squarePlanner.dtos.ad.*;
 import com.example.squarePlanner.enity.Ad;
 import com.example.squarePlanner.enity.ProgressoAd;
 import com.example.squarePlanner.enity.ProgressoAtividades;
+import com.example.squarePlanner.enity.Turma;
 import com.example.squarePlanner.enity.Usuario;
 import com.example.squarePlanner.exception.*;
 import com.example.squarePlanner.repository.AdRepository;
@@ -36,12 +37,14 @@ public class AdService {
 
 
     public void criarAd(CriarAdDTO dados){
+        Turma turma = obterTurmaUsuarioAutenticado();
+
         Ad ad = new Ad(
             dados.materia(),
             dados.data(),
             dados.trimestre(),
             dados.proposta(),
-            dados.turma()
+            turma
         );
         if(dados.trimestre() <= 0 || dados.trimestre() >3){
             throw new FormatoInvalidoException("trimestre invalido");
@@ -52,6 +55,19 @@ public class AdService {
         }
 
         adRepository.save(ad);
+    }
+
+    private Turma obterTurmaUsuarioAutenticado() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioNotFound("Usuário não encontrado"));
+
+        if (usuario.getTurma() == null) {
+            throw new DadosInvalidosException("Usuário não possui uma turma definida");
+        }
+
+        return usuario.getTurma();
     }
 
     public void editarAd(Long id,EditarAdDTO dados){

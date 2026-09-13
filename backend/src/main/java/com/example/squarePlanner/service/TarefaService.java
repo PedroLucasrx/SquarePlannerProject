@@ -42,11 +42,13 @@ public class TarefaService {
     }
 
     public void criarTarefa(CriarTarefaDTO dados){
+        Turma turma = obterTurmaUsuarioAutenticado();
+
         Tarefa tarefa = new Tarefa(
                 dados.materia(),
                 dados.data(),
                 dados.trimestre(),
-                dados.turma()
+                turma
         );
         if(dados.materia() == null || dados.materia().isBlank()){
             throw  new DadosInvalidosException("Nome da materia é necessario");
@@ -312,6 +314,19 @@ public class TarefaService {
             atividadeRepository.save(atividade);
 
         }
+    }
+
+    private Turma obterTurmaUsuarioAutenticado() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioNotFound("Usuário não encontrado"));
+
+        if (usuario.getTurma() == null) {
+            throw new DadosInvalidosException("Usuário não possui uma turma definida");
+        }
+
+        return usuario.getTurma();
     }
     //ANTIGO
     /*public void editarEstadoAtividade(Long id, EditarEstadoAtividadeDTO dado){

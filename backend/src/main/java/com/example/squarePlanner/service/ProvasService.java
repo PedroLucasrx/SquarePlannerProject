@@ -10,6 +10,7 @@ import com.example.squarePlanner.dtos.provas.ProvaResponseDTO;
 import com.example.squarePlanner.enity.Conteudo;
 import com.example.squarePlanner.enity.ProgressoConteudo;
 import com.example.squarePlanner.enity.Prova;
+import com.example.squarePlanner.enity.Turma;
 import com.example.squarePlanner.enity.Usuario;
 import com.example.squarePlanner.exception.*;
 import com.example.squarePlanner.repository.ConteudoRepository;
@@ -46,6 +47,8 @@ public class ProvasService {
 
     public void criarProva(CriarProvaDTO dados){
 
+        Turma turma = obterTurmaUsuarioAutenticado();
+
 
         //todo criar uma função para isso
         if(dados.trimestre() > 3 || dados.trimestre() <= 0){
@@ -67,7 +70,7 @@ public class ProvasService {
                 dados.materia(),
                 dados.data(),
                 dados.trimestre(),
-                dados.anoEscolar()
+                turma.getAnoEscolar()
         );
 
         provaRepository.save(prova);
@@ -87,6 +90,8 @@ public class ProvasService {
     }
 
     public void criarListaProvas(List<CriarProvaDTO> lista){
+        Turma turma = obterTurmaUsuarioAutenticado();
+
         for(CriarProvaDTO prova: lista){
             //todo criar uma função para isso
             if(prova.trimestre() > 3 || prova.trimestre() <= 0){
@@ -104,7 +109,7 @@ public class ProvasService {
                     prova.materia(),
                     prova.data(),
                     prova.trimestre(),
-                    prova.anoEscolar()
+                    turma.getAnoEscolar()
             );
             provaRepository.save(novaProva);
 
@@ -123,6 +128,19 @@ public class ProvasService {
 
 
         }
+    }
+
+    private Turma obterTurmaUsuarioAutenticado() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioNotFound("Usuário não encontrado"));
+
+        if (usuario.getTurma() == null) {
+            throw new DadosInvalidosException("Usuário não possui uma turma definida");
+        }
+
+        return usuario.getTurma();
     }
 
     public void editarProva(Long id, EditarProvaDTO dados){

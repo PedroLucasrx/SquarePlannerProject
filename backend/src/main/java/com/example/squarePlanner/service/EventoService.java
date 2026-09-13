@@ -3,6 +3,7 @@ package com.example.squarePlanner.service;
 import com.example.squarePlanner.dtos.evento.CriarEventoDTO;
 import com.example.squarePlanner.dtos.evento.EditarEventoDTO;
 import com.example.squarePlanner.enity.Evento;
+import com.example.squarePlanner.enity.Turma;
 import com.example.squarePlanner.enity.Usuario;
 import com.example.squarePlanner.exception.DadosInvalidosException;
 import com.example.squarePlanner.exception.EventoNotFound;
@@ -31,10 +32,12 @@ public class EventoService {
     }
 
     public void criarEvento(CriarEventoDTO dados){
+        Turma turma = obterTurmaUsuarioAutenticado();
+
         Evento evento = new Evento(
                 dados.nome(),
                 dados.data(),
-                dados.turma()
+                turma
         );
         if(dados.nome() == null || dados.nome().isBlank()){
             throw new DadosInvalidosException("Nome do Evento é necessario");
@@ -44,6 +47,19 @@ public class EventoService {
             throw new JaExisteException("Evento com o mesmo nome ja exite para essa data");
         }
         eventoRepository.save(evento);
+    }
+
+    private Turma obterTurmaUsuarioAutenticado() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioNotFound("Usuário não encontrado"));
+
+        if (usuario.getTurma() == null) {
+            throw new DadosInvalidosException("Usuário não possui uma turma definida");
+        }
+
+        return usuario.getTurma();
     }
 
     public Evento lerEvento(Long id){
