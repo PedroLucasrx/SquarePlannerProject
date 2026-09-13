@@ -13,73 +13,7 @@
 
     </header>
 
-
-    @if (authService.logado()) {
-
-        <main class="menu">
-
-            <button
-                class="btn btn-primary menu-item"
-                routerLink="/provas"
-            >
-                Provas
-            </button>
-
-            <button
-                class="btn btn-primary menu-item"
-                routerLink="/ads"
-            >
-                ADs
-            </button>
-
-            <button
-                class="btn btn-primary menu-item"
-                routerLink="/tarefas"
-            >
-                Tarefas
-            </button>
-
-            <button
-                class="btn btn-primary menu-item"
-                routerLink="/eventos"
-            >
-                Eventos
-            </button>
-
-        </main>
-
-
-        <button
-            class="btn btn-danger btn-sair"
-            (click)="sair()"
-        >
-            Sair
-        </button>
-
-    }
-
-
-    @if (!authService.logado()) {
-
-        <main class="login">
-
-            <p>
-                Você não está logado.
-            </p>
-
-            <button
-                class="btn btn-primary"
-                routerLink="/login"
-            >
-                Entrar
-            </button>
-
-        </main>
-
-    }
-
-</div>
-@if (mostrarPopupTurma) {
+    @if (mostrarPopupTurma) {
 
     <div class="popup-overlay">
 
@@ -143,7 +77,12 @@
                 [disabled]="turmaSelecionada === null"
                 (click)="salvarTurma()"
             >
-                Continuar
+                @if (carregandoTurma) {
+                <span class="spinner"></span>
+                    Entrando...
+                } @else {
+                    Continuar
+                }
             </button>
 
         </div>
@@ -152,6 +91,76 @@
 
 }
 
-<button class="btn btn-secondary btn-theme" type="button" (click)="themeService.toggleTheme()">
-    {{ themeService.theme() === 'dark' ? 'Tema claro' : 'Tema escuro' }}
-</button>
+
+    @if (authService.logado() && !carregandoUsuario && !mostrarPopupTurma) {
+
+        <main class="menu">
+
+            <button
+                class="btn btn-primary menu-item"
+                routerLink="/provas"
+            >
+                Provas
+            </button>
+
+            <button
+                class="btn btn-primary menu-item"
+                routerLink="/ads"
+            >
+                ADs
+            </button>
+
+            <button
+                class="btn btn-primary menu-item"
+                routerLink="/tarefas"
+            >
+                Tarefas
+            </button>
+
+            <button
+                class="btn btn-primary menu-item"
+                routerLink="/eventos"
+            >
+                Eventos
+            </button>
+
+        </main>
+
+
+        <button
+            class="btn btn-danger btn-sair"
+            (click)="sair()"
+        >
+            Sair
+        </button>
+
+    }
+
+
+    @if (!authService.logado() && !carregandoUsuario) {
+
+        <main class="login">
+
+            <p>
+                Você não está logado.
+            </p>
+
+            <button
+                class="btn btn-primary"
+                routerLink="/login"
+            >
+                Entrar
+            </button>
+
+        </main>
+
+    }
+
+</div>
+
+
+@if (!carregandoUsuario && !mostrarPopupTurma) {
+    <button class="btn btn-secondary btn-theme" type="button" (click)="themeService.toggleTheme()">
+        {{ themeService.theme() === 'dark' ? 'Tema claro' : 'Tema escuro' }}
+    </button>
+}

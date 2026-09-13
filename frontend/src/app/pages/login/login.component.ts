@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  NgZone,
   ViewChild
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -40,26 +41,7 @@ export class LoginComponent implements AfterViewInit {
           client_id: '916862102985-p4iiksq618g3tohfpk9c9pgi028tnkop.apps.googleusercontent.com',
           use_fedcm_for_button: true,
           callback: (response: any) => {
-
-
-            this.carregando = true;
-            this.mensagemErro = '';
-
-            this.authService.loginGoogle(response.credential).subscribe({
-              next: (resposta) => {
-                this.carregando = false;
-
-              this.router.navigate(['/']);
-            },
-            error: (erro) => {
-              console.error('Erro ao fazer login com Google:', erro);
-              this.carregando = false;
-              this.mensagemErro =
-              'Não foi possível entrar com o Google. Tente novamente.';
-            }
-        });
-
-
+            this.ngZone.run(() => this.entrarComGoogle(response.credential));
           }
         });
 
@@ -83,8 +65,27 @@ export class LoginComponent implements AfterViewInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {}
+
+  private entrarComGoogle(credential: string): void {
+    this.carregando = true;
+    this.mensagemErro = '';
+
+    this.authService.loginGoogle(credential).subscribe({
+      next: () => {
+        this.carregando = false;
+        this.router.navigate(['/']);
+      },
+      error: (erro) => {
+        console.error('Erro ao fazer login com Google:', erro);
+        this.carregando = false;
+        this.mensagemErro =
+          'Não foi possível entrar com o Google. Tente novamente.';
+      }
+    });
+  }
 
   login(): void {
 

@@ -27,6 +27,8 @@ interface Turma {
 export class HomeComponent implements OnInit {
 
     mostrarPopupTurma = false;
+    carregandoUsuario = true;
+    carregandoTurma = false;
 
     turmas: Turma[] = [];
     anoSelecionado: number | null = null;
@@ -50,13 +52,19 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.verificarTurmaUsuario();
+    }
+
+    private verificarTurmaUsuario(): void {
+        this.carregandoUsuario = true;
 
         this.authService.carregarDadosUsuario().subscribe({
             next: (usuario) => {
+                this.carregandoUsuario = false;
+                this.mostrarPopupTurma = usuario.turmaId === null;
 
                 if (usuario.turmaId === null) {
                     this.carregarTurmas();
-                    this.mostrarPopupTurma = true;
                 }
 
             },
@@ -67,7 +75,6 @@ export class HomeComponent implements OnInit {
                 );
             }
         });
-
     }
 
     private carregarTurmas(): void {
@@ -88,6 +95,7 @@ export class HomeComponent implements OnInit {
         if (this.turmaSelecionada === null) {
             return;
         }
+        this.carregandoTurma = true;
 
         this.http.put(
             'https://squareplannerproject.onrender.com/auth/turma',
@@ -96,11 +104,8 @@ export class HomeComponent implements OnInit {
             }
         ).subscribe({
             next: () => {
-
-                this.mostrarPopupTurma = false;
-
-                this.authService.carregarDadosUsuario().subscribe();
-
+                this.verificarTurmaUsuario();
+                this.carregandoTurma = false;
             },
             error: (erro) => {
 
@@ -108,6 +113,7 @@ export class HomeComponent implements OnInit {
                     'Erro ao salvar turma:',
                     erro
                 );
+                this.carregandoTurma = false;
 
             }
         });
