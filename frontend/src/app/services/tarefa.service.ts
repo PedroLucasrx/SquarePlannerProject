@@ -49,7 +49,7 @@ export class TarefaService {
 
   deletarTarefa(id: number): Observable<any> {
     return this.http.delete(
-      `https://squareplannerproject.onrender.com/tarefas/tarefas/${id}`
+      `https://squareplannerproject.onrender.com/tarefas/${id}`
     );
   }
 
