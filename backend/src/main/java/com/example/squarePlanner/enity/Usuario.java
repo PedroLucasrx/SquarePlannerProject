@@ -22,7 +22,7 @@ public class Usuario {
     @Column(unique = true)
     private String googleId;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String senha;
 
     @Column(nullable = false)

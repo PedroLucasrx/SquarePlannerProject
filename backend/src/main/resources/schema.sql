@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     google_id VARCHAR(255),
-    senha VARCHAR(255) NOT NULL,
+    senha VARCHAR(255),
     turma_id BIGINT,
     role VARCHAR(255) NOT NULL,
 

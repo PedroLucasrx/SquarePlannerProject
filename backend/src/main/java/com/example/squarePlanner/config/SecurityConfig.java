@@ -61,6 +61,11 @@ public class SecurityConfig {
                         // =========================
 
                         .requestMatchers("/auth/**", "/health").permitAll()
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/auth/turma"
+                        ).authenticated()
                        
 
 

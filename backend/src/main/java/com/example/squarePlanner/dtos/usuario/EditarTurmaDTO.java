@@ -1,7 +1,7 @@
 package com.example.squarePlanner.dtos.usuario;
 
-public record GoogleLoginDTO(
-        String credential,
+public record EditarTurmaDTO(
+        String email,
         Long turmaId
 ) {
 }

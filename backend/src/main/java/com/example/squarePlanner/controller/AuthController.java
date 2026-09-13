@@ -1,10 +1,7 @@
 package com.example.squarePlanner.controller;
 
 import com.example.squarePlanner.dtos.RestResponseDTO;
-import com.example.squarePlanner.dtos.usuario.CriarUsuarioDTO;
-import com.example.squarePlanner.dtos.usuario.GoogleLoginDTO;
-import com.example.squarePlanner.dtos.usuario.LoginDTO;
-import com.example.squarePlanner.dtos.usuario.LoginResponseDTO;
+import com.example.squarePlanner.dtos.usuario.*;
 import com.example.squarePlanner.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,14 +41,29 @@ public class AuthController {
     }
 
     @PostMapping("/google")
-    public ResponseEntity<LoginResponseDTO> loginGoogle(
+    public ResponseEntity<LoginGoogleResponseDTO> loginGoogle(
             @RequestBody GoogleLoginDTO dados
     ) {
 
-        String token = authService.loginGoogle(dados);
+        LoginGoogleResponseDTO resposta =
+                authService.loginGoogle(dados);
+
+        return ResponseEntity.ok(resposta);
+    }
+
+    @PutMapping("/turma")
+    public ResponseEntity<Void> atualizarTurma(
+            @RequestBody EditarTurmaDTO dados
+    ) {
+        authService.atualizarTurma(dados);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UsuarioLogadoDTO> usuarioLogado() {
 
         return ResponseEntity.ok(
-                new LoginResponseDTO(token)
+                authService.usuarioLogado()
         );
     }
 }

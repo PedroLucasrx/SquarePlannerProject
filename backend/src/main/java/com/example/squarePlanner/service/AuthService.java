@@ -1,18 +1,19 @@
 package com.example.squarePlanner.service;
 
-import com.example.squarePlanner.dtos.usuario.CriarUsuarioDTO;
-import com.example.squarePlanner.dtos.usuario.LoginDTO;
+import com.example.squarePlanner.dtos.usuario.*;
 import com.example.squarePlanner.enity.Turma;
 import com.example.squarePlanner.enity.Usuario;
+import com.example.squarePlanner.exception.DadosInvalidosException;
 import com.example.squarePlanner.exception.JaExisteException;
 import com.example.squarePlanner.exception.UsuarioNotFound;
 import com.example.squarePlanner.repository.TurmaRepository;
 import com.example.squarePlanner.repository.UsuarioRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.example.squarePlanner.dtos.usuario.GoogleLoginDTO;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 
 @Service
@@ -85,7 +86,7 @@ public class AuthService {
         );
     }
 
-    public String loginGoogle(GoogleLoginDTO dados) {
+    public LoginGoogleResponseDTO loginGoogle(GoogleLoginDTO dados) {
 
         GoogleIdToken.Payload payload =
                 googleTokenService.validarToken(dados.credential());
@@ -99,32 +100,97 @@ public class AuthService {
                 .orElse(null);
 
         if (usuario == null) {
-
             usuario = usuarioRepository
                     .findByEmail(email)
                     .orElse(null);
+        }
 
-            if (usuario == null) {
+        // Usuário Google novo
+        if (usuario == null) {
 
-                usuario = new Usuario(
-                        nome,
-                        email,
-                        passwordEncoder.encode(java.util.UUID.randomUUID().toString())
+            // Ainda não escolheu a turma
+            if (dados.turmaId() == null) {
+                return new LoginGoogleResponseDTO(
+                        null,
+                        true
                 );
-
             }
 
+            Turma turma = turmaRepository.findById(dados.turmaId())
+                    .orElseThrow(() ->
+                            new DadosInvalidosException("Turma não encontrada"));
+
+            usuario = new Usuario();
+            usuario.setNome(nome);
+            usuario.setEmail(email);
             usuario.setGoogleId(googleId);
+            usuario.setTurma(turma);
 
             usuarioRepository.save(usuario);
         }
 
-        return jwtService.gerarToken(
+        // Usuário existente que ainda não tinha Google vinculado
+        else if (usuario.getGoogleId() == null) {
+            usuario.setGoogleId(googleId);
+            usuarioRepository.save(usuario);
+        }
+
+        String token = jwtService.gerarToken(
                 usuario.getEmail(),
                 usuario.getNome(),
                 usuario.getRole()
         );
+
+        return new LoginGoogleResponseDTO(
+                token,
+                false
+        );
     }
+
+    public void atualizarTurma(EditarTurmaDTO dados) {
+
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        String email = authentication.getName();
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsuarioNotFound("Usuário não encontrado"));
+
+        Turma turma = turmaRepository.findById(dados.turmaId())
+                .orElseThrow(() ->
+                        new DadosInvalidosException("Turma não encontrada"));
+
+        usuario.setTurma(turma);
+
+        usuarioRepository.save(usuario);
+    }
+
+    public UsuarioLogadoDTO usuarioLogado() {
+
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        String email = authentication.getName();
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsuarioNotFound("Usuário não encontrado"));
+
+        Long turmaId = usuario.getTurma() != null
+                ? usuario.getTurma().getId()
+                : null;
+
+        return new UsuarioLogadoDTO(
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getRole(),
+                turmaId
+        );
+    }
+
+
 }
 
 
