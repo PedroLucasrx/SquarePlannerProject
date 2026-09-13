@@ -13,6 +13,12 @@
 
     </header>
 
+    @if (!carregandoUsuario && !mostrarPopupTurma) {
+        <button class="btn btn-secondary btn-theme" type="button" (click)="themeService.toggleTheme()">
+            {{ themeService.theme() === 'dark' ? 'Tema claro' : 'Tema escuro' }}
+        </button>
+    }
+
     @if (mostrarPopupTurma) {
 
     <div class="popup-overlay">
@@ -157,10 +163,3 @@
     }
 
 </div>
-
-
-@if (!carregandoUsuario && !mostrarPopupTurma) {
-    <button class="btn btn-secondary btn-theme" type="button" (click)="themeService.toggleTheme()">
-        {{ themeService.theme() === 'dark' ? 'Tema claro' : 'Tema escuro' }}
-    </button>
-}
